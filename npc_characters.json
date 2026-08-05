@@ -1,0 +1,317 @@
+[
+  {
+    "id": "char_1785549810203_egyjycr55",
+    "name": "Borin Stonebeard",
+    "class": "Dwarf Fighter",
+    "level": 22,
+    "maxHP": 320,
+    "HP": 156,
+    "notes": "## Mountain's Might\n### Combat Abilities\n- Shield Bash: A concussive blow that can disarm or intimidate.\n- Battle Cry: A booming declaration that inspires (or terrifies).\n- Earth Tremor: Controlling the battlefield with sheer physical presence.\n### Strengths\n- Unbreakable constitution and sheer physical grit.\n- Expertise in heavy armor and relentless melee combat.\n- Loyalty to his clan and those he considers his 'tribe.'\n### Weaknesses\n- Extremely stubborn and resistant to change of heart.\n- Dislikes anything too frivolous or overly scented.\n- Obsessed with good liquor, strong ale, and accumulating solid gold."
+  },
+  {
+    "id": "char_1785549810203_9ney2y9aw",
+    "name": "Briar Rootbloom",
+    "class": "Druid",
+    "level": 18,
+    "maxHP": 130,
+    "HP": 30,
+    "notes": "## Keeper of the Grove\n### Combat Abilities\n- Wild Shape: Transforming into powerful, natural forms (Bear, Wolf, etc.).\n- Healing Earth: Drawing vitality from the ground to mend life.\n- Verdant Barrier: Summoning powerful, thick walls of growth.\n### Strengths\n- Deep, intuitive empathy for all life forms, wild or tame.\n- Powerful, restorative magic rooted in the life cycle.\n- Can communicate with and understand the language of plant life.\n### Weaknesses\n- Highly sensitive to environmental pollution and industrial blight.\n- Can become melancholy and withdrawn if the natural world suffers.\n- Sometimes forgets complex human customs in favor of natural cycles."
+  },
+  {
+    "id": "char_1785549810203_2u6nlxbxu",
+    "name": "Doran Ironfist",
+    "class": "Fighter",
+    "level": 23,
+    "maxHP": 300,
+    "HP": 280,
+    "notes": "## The Unyielding Warrior\n### History\nA battle-hardened soldier from a mountain clan.\n### Combat Abilities\n- Shield Bash: A heavy strike with a shield.\n- Cleave: A wide-sweeping attack.\n- Battle Cry: A roar that boosts allies.\n### Strengths\n- High physical defense.\n- Great at melee combat.\n- Very disciplined.\n### Weaknesses\n- Lacks magical ability.\n- Can be slow in combat.\n- Very stubborn.\n### Special Gear\n- *Ironfist Gauntlets*: Heavy gauntlets that increase strength."
+  },
+  {
+    "id": "char_1785549810203_4cta2vf8q",
+    "name": "Elara Sunstone",
+    "class": "Paladin",
+    "level": 19,
+    "maxHP": 250,
+    "HP": 227,
+    "notes": "## Beacon of Justice\n### Combat Abilities\n- Divine Smite: Channeling righteous power into devastating blows.\n- Lay on Hands: Healing that soothes both body and spirit.\n- Aura of Protection: A protective field of divine grace.\n### Strengths\n- Impeccable moral compass and shining, guiding leadership.\n- Inspiring presence that motivates others to their best selves.\n- Resilience against moral corruption and dark magic.\n### Weaknesses\n- Overly trusting of pure hearts and innocence.\n- Struggles deeply with moral gray areas (seeing everything as pure good or absolute evil).\n- Can be preachy and highly judgmental of perceived sins."
+  },
+  {
+    "id": "char_1785549810203_emf461ysu",
+    "name": "Elowen Greenleaf",
+    "class": "Druid",
+    "level": 21,
+    "maxHP": 150,
+    "HP": 85,
+    "notes": "## The Forest Spirit\n### History\nA druid who protects the ancient woods.\n### Combat Abilities\n- Root Entangle: Traps enemies.\n- Spore Cloud: Blinds enemies.\n- Animal Form: Transforms into an animal.\n### Strengths\n- High nature magic.\n- Good at tracking.\n- Connected to nature.\n### Weaknesses\n- Low physical strength.\n- Vulnerable to fire.\n- Very emotional.\n### Special Gear\n- *Nature Staff*: A staff made of wood."
+  },
+  {
+    "id": "char_1785549810203_aa5qicz1v",
+    "name": "Elowen Starwhisper",
+    "class": "High Elf Mage",
+    "level": 30,
+    "maxHP": 110,
+    "HP": 95,
+    "notes": "## Weaver of the Astral Plane\n### History\nAn academic from the Silver Spire who accidentally touched a rift in the cosmos.\n### Combat Abilities\n- Astral Bolt: Projecting pure starlight energy.\n- Chrono-Shift: Briefly slowing time in a small radius.\n- Mana Shield: Converting magic energy into physical protection.\n### Strengths\n- Vast knowledge of ancient arcane lore.\n- Ability to detect magical fluctuations.\n- High intelligence and strategic planning.\n### Weaknesses\n- Low physical stamina.\n- Vulnerable to anti-magic fields.\n- Often loses track of time due to cosmic visions.\n### Special Gear\n- *The Chronos Staff*: A staff that hums with the rhythm of the universe."
+  },
+  {
+    "id": "char_1785549810203_i9of30maj",
+    "name": "Finnian Bardel",
+    "class": "Bard",
+    "level": 14,
+    "maxHP": 70,
+    "HP": 26,
+    "notes": "## Voice of the Festival\n### Combat Abilities\n- Inspiration Song: Buffing allies with rousing, emotional performance.\n- Mind Control Melody: Temporary suggestion through music.\n- Storytelling: Using narrative to confuse and disarm foes.\n### Strengths\n- Utterly charismatic and capable of swaying the emotions of large crowds.\n- Exceptional improvisational skills, making him a master of any social situation.\n- Can find allies and secrets in the most unlikely, charming places.\n### Weaknesses\n- Over-dramatic and prone to excessive, unnecessary flair.\n- Cannot function without an audience or a spotlight.\n- Will attempt to charm and flirt with every sentient being encountered, regardless of their mood."
+  },
+  {
+    "id": "char_1785549810203_aomhx3rzo",
+    "name": "Grimfang",
+    "class": "Barbarian",
+    "level": 12,
+    "maxHP": 280,
+    "HP": 69,
+    "notes": "## Savage Warrior\n### Combat Abilities\n- Rage (Damage Boost): A primal fury that grants incredible, raw strength.\n- Savage Strike: Utilizing wild, powerful, non-technical blows.\n- Endurance: Ignoring pain and pushing through exhaustion.\n### Strengths\n- Pure, devastating brute strength and unmatched fighting ferocity.\n- Requires no fancy equipment; his body is his weapon.\n- Simple, direct, and devastating combat style, always upfront.\n### Weaknesses\n- Lacks strategic finesse or nuanced tactical thinking.\n- Easily provoked into a mindless, unstoppable rage.\n- Has zero social grace; always smells faintly of sweat, smoke, and blood."
+  },
+  {
+    "id": "char_1785549810203_m7kxn0zut",
+    "name": "Grizelda 'Griz' Stone",
+    "class": "Wild Sorcerer",
+    "level": 16,
+    "maxHP": 120,
+    "HP": 73,
+    "notes": "## Primal Chaos Magic\n### Combat Abilities\n- Wild Magic Surge: Unpredictable, raw bursts of power.\n- Nature's Wrath: Summoning localized, primal elemental forces.\n- Animal Communication: Directing the beasts of the wilds.\n### Strengths\n- Raw, unpredictable magical power source that is nearly limitless.\n- Deep, visceral connection to the untamed wilderness.\n- Fiercely protective, acting instinctively for those she loves.\n### Weaknesses\n- Magic usage is volatile and often unpredictable (can accidentally change people's skin color).\n- Terrible sense of style and grooming.\n- Highly emotional and prone to dramatic, passionate outbursts."
+  },
+  {
+    "id": "char_1785549810203_im66o8xj8",
+    "name": "Grogna Bloodfist",
+    "class": "Barbarian",
+    "level": 24,
+    "maxHP": 380,
+    "HP": 350,
+    "notes": "## The Unstoppable Storm\n### History\nA chieftain of the Iron-Tusk clan.\n### Combat Abilities\n- Primal Rage: Increases damage.\n- Ground Slam: Creates an earthquake.\n- Berserker's Charge: A heavy charge.\n### Strengths\n- Massive health pool.\n- Intimidating presence.\n- High resistance to pain.\n### Weaknesses\n- Low intelligence.\n- Easily provoked.\n- Struggles with magic.\n### Special Gear\n- *Skull-Crusher Axe*: A heavy axe."
+  },
+  {
+    "id": "char_1785549810203_4wf8xgtad",
+    "name": "Jax 'The Quick' Renard",
+    "class": "Assassin",
+    "level": 20,
+    "maxHP": 75,
+    "HP": 0,
+    "notes": "## Whisperblade Killer\n### Combat Abilities\n- Critical Strike Mastery: Targeting vital points with surgical precision.\n- Poison Application: Infusing blades with potent, debilitating toxins.\n- Shadow Step: Vanishing and reappearing instantaneously in the dark.\n### Strengths\n- Lethal efficiency and unparalleled skill in one-on-one combat.\n- Can vanish into any background, remaining unseen and unheard.\n- Highly skilled in extraction and reading people's deepest secrets.\n### Weaknesses\n- Struggles to form lasting, emotional attachments.\n- Relies too heavily on meticulous planning; poor in chaotic, unpredictable situations.\n- Susceptible to emotional manipulation from charming individuals."
+  },
+  {
+    "id": "char_1785549810203_0gbhzf3sa",
+    "name": "Juno Swiftfoot",
+    "class": "Swashbuckler",
+    "level": 16,
+    "maxHP": 100,
+    "HP": 46,
+    "notes": "## Duelist of the Golden Age\n### Combat Abilities\n- Flurry of Blades: A dazzling, rapid succession of precise sword strikes.\n- Acrobatics Bonus: Using the environment and high mobility to strike.\n- Taunt: Drawing all attention, leaving enemies open and vulnerable.\n### Strengths\n- Flawless fighting style combined with effortless, dramatic grace.\n- Highly skilled in social combat, knowing exactly how to win a debate or a duel.\n- Never loses his nerve, even when facing overwhelming odds.\n### Weaknesses\n- Overconfidence in his own combat prowess and flair.\n- Can become dangerously addicted to high-stakes gambling and risk.\n- Needs a dramatic, public setting to feel truly comfortable and alive."
+  },
+  {
+    "id": "char_1785549810203_kruxpfpt6",
+    "name": "Kaelen Darkwood",
+    "class": "Rogue",
+    "level": 25,
+    "maxHP": 180,
+    "HP": 160,
+    "notes": "## The Shadow Blade\n### History\nA rogue who operates in the shadows of the city.\n### Combat Abilities\n- Shadow Strike: A quick, dark attack.\n- Smoke Bomb: Creating a cloud of smoke.\n- Backstab: A high-damage strike from behind.\n### Strengths\n- High stealth.\n- Great at single-target damage.\n- Very agile.\n### Weaknesses\n- Low physical defense.\n- Struggles in large battles.\n- Can be quite secretive.\n### Special Gear\n- *Shadow Daggers*: Daggers that blend with shadows."
+  },
+  {
+    "id": "char_1785549810203_7rgrmtqtn",
+    "name": "Kaelen Shadowheart",
+    "class": "Rogue",
+    "level": 15,
+    "maxHP": 85,
+    "HP": 64,
+    "notes": "## Shadow of the Night\n### Combat Abilities\n- Sneak Attack (Expert Level): Strikes where no one expects it.\n- Grapple and Escape: Master of pinning and slipping away.\n- Poisoned Blade Mastery: Every cut leaves a lingering, potent effect.\n### Strengths\n- Unmatched stealth, especially in dimly lit, intimate settings.\n- Observational skills: Notices the slightest detail, from a loose thread to a nervous glance.\n- Highly adaptable to any environment, from crowded ballrooms to dark alleys.\n### Weaknesses\n- Extremely reliant on darkness and obscurity.\n- Prone to gambling and quick, luxurious vices.\n- Easily distracted by fine silks, expensive perfumes, and jewels."
+  },
+  {
+    "id": "char_1785549810203_ttpzs09zt",
+    "name": "Kaelen Shadowstep",
+    "class": "Rogue",
+    "level": 26,
+    "maxHP": 190,
+    "HP": 170,
+    "notes": "## The Shadow Runner\n### History\nA rogue who moves through the shadows of the city.\n### Combat Abilities\n- Shadow Strike: A quick, dark attack.\n- Smoke Bomb: Creating a cloud of smoke.\n- Backstab: A high-damage strike from behind.\n### Strengths\n- High stealth.\n- Great at single-target damage.\n- Very agile.\n### Weaknesses\n- Low physical defense.\n- Struggles in large battles.\n- Can be quite secretive.\n### Special Gear\n- *Shadow Daggers*: Daggers that blend with shadows."
+  },
+  {
+    "id": "char_1785549810203_w5td7umf1",
+    "name": "Kaelen Voss",
+    "class": "Shadow Rogue",
+    "level": 25,
+    "maxHP": 180,
+    "HP": 142,
+    "notes": "## The Silent Blade\n### History\nRaised in the gutters of the Undercity, Kaelen learned to survive by never being seen.\n### Combat Abilities\n- Shadow Step: Instant teleportation through darkness.\n- Venomous Strike: Coating daggers in paralyzing toxins.\n- Smoke Bomb: Creating a shroud for quick escapes.\n### Strengths\n- Master of stealth and infiltration.\n- Unmatched reflexes in close quarters.\n- Highly perceptive of hidden traps.\n### Weaknesses\n- Physically fragile against heavy hitters.\n- Struggles in brightly lit environments.\n- Deeply distrustful of authority figures.\n### Special Gear\n- *Nightfall Daggers*: Twin blades that absorb light."
+  },
+  {
+    "id": "char_1785549810203_xk9iizw56",
+    "name": "Luna Moonbrook",
+    "class": "Druid",
+    "level": 21,
+    "maxHP": 160,
+    "HP": 145,
+    "notes": "## The Moonlit Guardian\n### History\nA druid who draws power from the moon.\n### Combat Abilities\n- Lunar Beam: A beam of moonlight.\n- Moonrise: Summoning a lunar entity.\n- Shadow Bind: Using moonlight to bind enemies.\n### Strengths\n- Great at crowd control.\n- High magical utility.\n- Can see in the dark.\n### Weaknesses\n- Weak during the day.\n- Low physical defense.\n- Can be overly mysterious.\n### Special Gear\n- *Moonstone Amulet*: An amulet that glows at night."
+  },
+  {
+    "id": "char_1785549810203_1p107lh20",
+    "name": "Lyra Moonbrook",
+    "class": "Mage",
+    "level": 24,
+    "maxHP": 130,
+    "HP": 62,
+    "notes": "## The Moon Mage\n### History\nA mage who draws power from the moon.\n### Combat Abilities\n- Moon Bolt: A bolt of moonlight.\n- Lunar Flare: A burst of light.\n- Shadow Bind: Binds enemies.\n### Strengths\n- High lunar magic.\n- Good at night.\n- High intelligence.\n### Weaknesses\n- Low physical defense.\n- Weak during the day.\n- Mysterious.\n### Special Gear\n- *Moon Staff*: A staff of moonlight."
+  },
+  {
+    "id": "char_1785549810203_m5pax9xh0",
+    "name": "Lyra Moonwhisper",
+    "class": "Elven Archer",
+    "level": 18,
+    "maxHP": 110,
+    "HP": 88,
+    "notes": "## Whisperwind Marksman\n### Combat Abilities\n- Nature's Aim: Precision shots that find soft spots.\n- Perfect Shot (Single Target): An arrow that never misses its mark.\n- Tracking the Wild: Locating targets through scent and subtle signs.\n### Strengths\n- Connection to natural beauty and feminine grace.\n- Unwavering patience and focus, making her a deadly marksman.\n- Exceptional knowledge of flora and fauna, and their most intimate uses.\n### Weaknesses\n- Deeply sentimental about natural, unspoiled beauty.\n- Struggles in overly populated, noisy, or artificial urban settings.\n- Can be emotionally withdrawn when feeling neglected or misunderstood."
+  },
+  {
+    "id": "char_1785549810203_885d0ul47",
+    "name": "Malakor the Grim",
+    "class": "Necromancer",
+    "level": 24,
+    "maxHP": 150,
+    "HP": 68,
+    "notes": "## Master of the Grave\n### History\nOnce a promising healer, he turned to the dark arts to bring back a lost loved one.\n### Combat Abilities\n- Raise Dead: Animating fallen foes as skeletons.\n- Bone Spear: Projecting shards of calcium at range.\n- Life Drain: Siphoning HP from enemies to self.\n### Strengths\n- Control over the undead legions.\n- Ability to see the presence of souls.\n- High magical area-of-effect damage.\n### Weaknesses\n- Physically weak and prone to fatigue.\n- Hated by many 'holy' orders.\n- His magic requires constant, taxing concentration.\n### Special Gear\n- *The Ossuary Ring*: A ring carved from a dragon's knuckle."
+  },
+  {
+    "id": "char_1785549810203_17n0q50jp",
+    "name": "Roric the Beastmaster",
+    "class": "Ranger",
+    "level": 17,
+    "maxHP": 140,
+    "HP": 140,
+    "notes": "## Warden of the Wilds\n### Combat Abilities\n- Animal Tactics: Directing beasts in coordinated, brutal attacks.\n- Beast Companion Synergy: Tapping into the raw power of his allies.\n- Survival Expert: Utilizing the environment as a weapon.\n### Strengths\n- Unparalleled understanding of natural combat flow and geometry.\n- Forms unbreakable, primal bonds with his animal companions.\n- Extremely self-sufficient and resourceful in any natural setting.\n### Weaknesses\n- Deeply distrusts all major cities and civilized trappings.\n- Has a strange aversion to anything overly scented or manufactured.\n- Overly protective and territorial regarding his pack mates and allies."
+  },
+  {
+    "id": "char_1785549810203_sr1vrif11",
+    "name": "Sariel Moonbrook",
+    "class": "Ranger",
+    "level": 21,
+    "maxHP": 100,
+    "HP": 0,
+    "notes": "## Warden of the Whispering Woods\n### History\nShe was chosen by the forest spirits to guard the ancient heart-tree.\n### Combat Abilities\n- Rain of Arrows: Firing multiple arrows in a wide arc.\n- Beast Command: Summoning a spectral wolf to fight.\n- Trapping Shot: Arrows that root enemies to the spot.\n### Strengths\n- Expert tracker and survivalist.\n- Can move silently through any terrain.\n- Deep connection to forest creatures.\n### Weaknesses\n- Dislikes urban environments and stone cities.\n- Relies heavily on her bow; weak in melee.\n- Can be distracted by the cries of wounded nature.\n### Special Gear\n- *Longbow of the Glade*: An organic bow made of living wood."
+  },
+  {
+    "id": "char_1785549810203_hdrf8rbhb",
+    "name": "Seraphina Light",
+    "class": "Cleric",
+    "level": 27,
+    "maxHP": 240,
+    "HP": 117,
+    "notes": "## The Sun Priestess\n### History\nA servant of the sun god, bringing light to the dark.\n### Combat Abilities\n- Holy Light: Heals allies.\n- Sunbeam: Blinds enemies.\n- Radiance: A burst of light.\n### Strengths\n- High healing power.\n- Inspires allies.\n- High holy damage.\n### Weaknesses\n- Low physical defense.\n- Relies on divine power.\n- Very strict code of conduct.\n### Special Gear\n- *Sun Staff*: A staff that radiates light."
+  },
+  {
+    "id": "char_1785549810203_jeo6pt1v6",
+    "name": "Seraphina Lightweaver",
+    "class": "Cleric",
+    "level": 28,
+    "maxHP": 250,
+    "HP": 240,
+    "notes": "## The Radiant Priestess\n### History\nA priestess of the light, dedicated to healing.\n### Combat Abilities\n- Holy Light: A beam of healing energy.\n- Radiant Shield: A shield of light.\n- Purify: Removing debuffs.\n### Strengths\n- Excellent healer.\n- High magical defense.\n- Very inspiring.\n### Weaknesses\n- Low physical defense.\n- Very much a pacifist.\n- Can be too focused on healing.\n### Special Gear\n- *Staff of Radiance*: A staff that emits light."
+  },
+  {
+    "id": "char_1785549810203_rnlojhzua",
+    "name": "Seraphina Veil",
+    "class": "Illusionist/Trickster",
+    "level": 13,
+    "maxHP": 95,
+    "HP": 95,
+    "notes": "## Mist and Mirage\n### Combat Abilities\n- Glamour Casting: Altering appearance to confuse and deceive.\n- Phantasmal Force: Creating powerful, convincing sensory illusions.\n- Misdirection: Making enemies fight ghosts of their own making.\n### Strengths\n- Can manipulate perception and reality on a small, highly personal scale.\n- Always knows the perfect, dramatic exit strategy.\n- Extremely witty, quick-thinking, and emotionally detached.\n### Weaknesses\n- Can become lost in the complexity of her own illusions.\n- Prone to adopting new, temporary, and highly alluring identities.\n- Very dependent on dramatic entrances and grand gestures."
+  },
+  {
+    "id": "char_1785549810203_c9qa3xzuf",
+    "name": "Silas Whisperwind",
+    "class": "Alchemist/Utility",
+    "level": 17,
+    "maxHP": 110,
+    "HP": 77,
+    "notes": "## Master of Potions and Poisons\n### Combat Abilities\n- Explosive Mixture: Creating localized, area-denial bursts.\n- Healing Salve: Crafting potent, customized restorative concoctions.\n- Venom Infusion: Potentiating weapons with customized toxins.\n### Strengths\n- Incredibly resourceful, turning mundane materials into powerful assets.\n- Brilliant, meticulous scientific mind and deductive reasoning.\n- Always has a strange, useful chemical in his pockets.\n### Weaknesses\n- Constantly distracted by the potential of new, odd chemicals.\n- His concoctions often have wildly unpredictable and sometimes dangerous side effects.\n- Can become paranoid about contamination and purity."
+  },
+  {
+    "id": "char_1785549810203_x005mu7lu",
+    "name": "Sister Veridian",
+    "class": "Divine Healer",
+    "level": 15,
+    "maxHP": 180,
+    "HP": 180,
+    "notes": "## Gentle Radiance\n### Combat Abilities\n- Restoration: Mending wounds that are physical and spiritual alike.\n- Divine Shield: Creating a barrier of protective, blessed light.\n- Purification: Washing away curses, sins, and dark energies.\n### Strengths\n- Unconditional empathy and boundless, nurturing compassion.\n- Can heal deep wounds that touch both body and soul.\n- A powerful beacon of hope and spiritual stability.\n### Weaknesses\n- Physically vulnerable when her spiritual faith or belief wavers.\n- Struggles to combat truly wicked or morally bankrupt evil.\n- Overly charitable, often risking her safety for strangers in need."
+  },
+  {
+    "id": "char_1785549810203_5s9uexzsl",
+    "name": "Thorgar Ironfoot",
+    "class": "Paladin",
+    "level": 28,
+    "maxHP": 450,
+    "HP": 410,
+    "notes": "## Shield of the Sun\n### History\nA veteran of the Solar Crusades, sworn to protect the weak from the undead.\n### Combat Abilities\n- Holy Smite: Infusing weapons with radiant light.\n- Aura of Courage: Buffing allies against fear effects.\n- Retribution Strike: Dealing damage back to attackers.\n### Strengths\n- Unyielding sense of justice.\n- Extremely durable in heavy plate armor.\n- Inspires hope in the downtroost.\n### Weaknesses\n- Rigid adherence to a strict moral code.\n- Slow movement speed due to heavy gear.\n- Can be easily manipulated by 'righteous' lies.\n### Special Gear\n- *Sunbreaker Aegis*: A shield that glows in the presence of evil."
+  },
+  {
+    "id": "char_1785549810203_sipl2ggb8",
+    "name": "Thorne Blackwood",
+    "class": "Warrior",
+    "level": 24,
+    "maxHP": 320,
+    "HP": 300,
+    "notes": "## The Iron Guard\n### History\nA warrior who protects the borders of the kingdom.\n### Combat Abilities\n- Shield Bash: A heavy strike.\n- Cleave: A wide-sweeping attack.\n- Taunt: Forcing enemies to attack him.\n### Strengths\n- High physical defense.\n- Great at protecting allies.\n- Very disciplined.\n### Weaknesses\n- Lacks magical ability.\n- Can be slow in combat.\n- Very stubborn.\n### Special Gear\n- *Iron Guard Shield*: A heavy, reinforced shield."
+  },
+  {
+    "id": "char_1785549810203_tluvmsixy",
+    "name": "Thorne Ironheart",
+    "class": "Warrior",
+    "level": 25,
+    "maxHP": 350,
+    "HP": 330,
+    "notes": "## The Unyielding Wall\n### History\nA veteran warrior who never retreats.\n### Combat Abilities\n- Shield Bash: Stuns enemies.\n- Taunt: Draws aggro.\n- Cleave: Hits multiple foes.\n### Strengths\n- High defense.\n- High durability.\n- Very disciplined.\n### Weaknesses\n- Low magic resistance.\n- Slow movement.\n- Very stubborn.\n### Special Gear\n- *Iron Plate*: Heavy armor."
+  },
+  {
+    "id": "char_1785549810203_sdihqm28n",
+    "name": "Valerius Ignis",
+    "class": "Pyromancer",
+    "level": 24,
+    "maxHP": 115,
+    "HP": 102,
+    "notes": "## Lord of the Flame\n### Combat Abilities\n- Fireball Barrage: Concentrated bursts of intense heat and flame.\n- Conflagration Field: Maintaining a zone of dangerous, spreading fire.\n- Heat Aura: Radiating intense warmth that can disorient enemies.\n### Strengths\n- Raw, overwhelming magical offensive power and intensity.\n- Passionate, dramatic, and utterly confident in his power.\n- Never underestimates the destructive beauty of fire.\n### Weaknesses\n- Extremely volatile temper, prone to dramatic flare-ups.\n- Vulnerable to extreme cold or potent water magic.\n- Needs constant, intense focus and physical exertion to channel his immense energy."
+  },
+  {
+    "id": "char_1785549810203_lnw73eqyp",
+    "name": "Vesper Nightshade",
+    "class": "Necromancer",
+    "level": 23,
+    "maxHP": 105,
+    "HP": 105,
+    "notes": "## Caller of the Departed\n### Combat Abilities\n- Raise Skeleton Army: Command over disciplined, undead forces.\n- Life Drain: Siphoning vitality from living beings to fuel magic.\n- Spirit Binding: Capturing and controlling ethereal entities.\n### Strengths\n- Command over the dead and the energies of undeath.\n- Excellent at controlling the battlefield through attrition and fear.\n- Views life and death as merely interchangeable resources.\n### Weaknesses\n- Needs constant exposure to death magic and morbidity.\n- Socially awkward, giving off a generally funereal aura.\n- Can accidentally raise highly significant, yet extremely grumpy, historical skeletons."
+  },
+  {
+    "id": "char_1785549810203_fo509k3ov",
+    "name": "Wanafanta",
+    "class": "Ghoul",
+    "level": 27,
+    "maxHP": 197,
+    "HP": 96,
+    "notes": "# She really wants a Fanta\n\n### Combat Abilities\n- Wants a Fanta\n- Will drink a Fanta\n- Will Kill for a Fanta\n\n### Strengths\n- Wants a Fanta\n- Will drink a Fanta\n- Will Kill for a Fanta\n\n### Weaknesses\n- Wants a Fanta\n- Will drink a Fanta\n- Will Kill for a Fanta\n\n### Special Gear\nDo you have to ask?\n- Fanta"
+  },
+  {
+    "id": "char_1785549810203_bzimopxnr",
+    "name": "Zephyr the Skyward",
+    "class": "Aether Mage",
+    "level": 21,
+    "maxHP": 100,
+    "HP": 86,
+    "notes": "## Weaver of the Elements\n### Combat Abilities\n- Dimensional Blink: Short-range teleportation for tactical repositioning.\n- Gravity Manipulation: Altering the weight and trajectory of objects.\n- Mana Shield: Creating temporary, energy-dampening barriers.\n### Strengths\n- Highly versatile, capable of mimicking multiple schools of magic (elemental, kinetic, etc.).\n- Intellectual genius and quick, detached learner.\n- Possesses an aura of profound, almost unsettling calm.\n### Weaknesses\n- Can become academically arrogant about his own knowledge.\n- Overthinks simple problems, wasting valuable time and energy.\n- His magic is taxing, requiring rare, celestial-aligned energy sources."
+  },
+  {
+    "id": "char_1785549810203_n73t0s4ch",
+    "name": "Zylos the Arcane",
+    "class": "Wizard",
+    "level": 25,
+    "maxHP": 90,
+    "HP": 47,
+    "notes": "## Master of Forbidden Lore\n### Combat Abilities\n- Teleportation: Instantaneous travel across vast distances.\n- Elemental Blast: Unleashing raw, destructive magic (Fire, Ice, etc.).\n- Arcane Shielding: Creating temporary barriers of pure magical force.\n### Strengths\n- Encyclopedic knowledge of magic, history, and arcane theory.\n- Incredible mental fortitude and quick wit.\n- Can improvise solutions using complex, obscure magical principles.\n### Weaknesses\n- Physically frail and easily drained by strenuous activity.\n- Has a pronounced addiction to rare, powerful magical components.\n- Prone to intellectual arrogance and forgetting basic common sense when deep in study."
+  }
+]

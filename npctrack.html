@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPC Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root {
+  --bg-primary: #f0f0f0;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --border-color: #d0d0d0;
+  --accent: #4a90d9;
+  --accent-hover: #3a7bc8;
+  --danger: #d94a4a;
+  --danger-hover: #c83a3a;
+  --success: #4ad96a;
+  --hp-bar-bg: #e0e0e0;
+  --hp-bar-low: #e07020;
+  --hp-bar-critical: #d94a4a;
+  --hp-bar-zero: #3a3a3a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --header-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --toggle-bg: #d0d0d0;
+  --toggle-knob: #ffffff;
+  --strikethrough-color: #888888;
+  --card-stripe: #f5f5f5;
+}
+
+[data-theme="ocean"] {
+  --bg-primary: #e8f0f8;
+  --bg-secondary: #f0f4fa;
+  --bg-card: #ffffff;
+  --text-primary: #1a2a3a;
+  --text-secondary: #4a6a7a;
+  --border-color: #b0c8e0;
+  --accent: #2a6aaa;
+  --accent-hover: #1a5a9a;
+  --danger: #c04040;
+  --danger-hover: #a03030;
+  --success: #3aaa6a;
+  --hp-bar-bg: #d0e0f0;
+  --hp-bar-low: #e09030;
+  --hp-bar-critical: #c04040;
+  --hp-bar-zero: #2a3a4a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --header-bg: #f0f4fa;
+  --input-bg: #ffffff;
+  --input-border: #b0c8e0;
+  --toggle-bg: #b0c8e0;
+  --toggle-knob: #ffffff;
+  --strikethrough-color: #8090a0;
+  --card-stripe: #f0f4fa;
+}
+
+[data-theme="desert"] {
+  --bg-primary: #faf0e0;
+  --bg-secondary: #fdf0e0;
+  --bg-card: #fffaf5;
+  --text-primary: #3a2a1a;
+  --text-secondary: #7a6a5a;
+  --border-color: #d0b890;
+  --accent: #b87a30;
+  --accent-hover: #a06820;
+  --danger: #c05030;
+  --danger-hover: #a04020;
+  --success: #6a9a40;
+  --hp-bar-bg: #e8d0b0;
+  --hp-bar-low: #d08030;
+  --hp-bar-critical: #c05030;
+  --hp-bar-zero: #3a2a1a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --header-bg: #fdf0e0;
+  --input-bg: #fffaf5;
+  --input-border: #d0b890;
+  --toggle-bg: #d0b890;
+  --toggle-knob: #fffaf5;
+  --strikethrough-color: #a09080;
+  --card-stripe: #fdf0e0;
+}
+
+[data-theme="forest"] {
+  --bg-primary: #e8f0e8;
+  --bg-secondary: #f0f8f0;
+  --bg-card: #ffffff;
+  --text-primary: #1a2a1a;
+  --text-secondary: #4a6a4a;
+  --border-color: #b0c8b0;
+  --accent: #3a7a3a;
+  --accent-hover: #2a6a2a;
+  --danger: #c04040;
+  --danger-hover: #a03030;
+  --success: #3a8a3a;
+  --hp-bar-bg: #c8e0c8;
+  --hp-bar-low: #d09030;
+  --hp-bar-critical: #c04040;
+  --hp-bar-zero: #2a3a2a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --header-bg: #f0f8f0;
+  --input-bg: #ffffff;
+  --input-border: #b0c8b0;
+  --toggle-bg: #b0c8b0;
+  --toggle-knob: #ffffff;
+  --strikethrough-color: #809080;
+  --card-stripe: #f0f8f0;
+}
+
+[data-theme="space"] {
+  --bg-primary: #e0e0e0;
+  --bg-secondary: #f0f0f0;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --border-color: #d0d0d0;
+  --accent: #4a90d9;
+  --accent-hover: #3a7bc8;
+  --danger: #d94a4a;
+  --danger-hover: #c83a3a;
+  --success: #4ad96a;
+  --hp-bar-bg: #e0e0e0;
+  --hp-bar-low: #e07020;
+  --hp-bar-critical: #d94a4a;
+  --hp-bar-zero: #3a3a3a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --header-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --toggle-bg: #d0d0d0;
+  --toggle-knob: #ffffff;
+  --strikethrough-color: #888888;
+  --card-stripe: #f5f5f5;
+}
+
+[data-theme="ocean"][data-dark="true"] {
+  --bg-primary: #1a2a3a;
+  --bg-secondary: #203040;
+  --bg-card: #2a3a4a;
+  --text-primary: #d0e0f0;
+  --text-secondary: #8a9aaa;
+  --border-color: #3a5a7a;
+  --accent: #4a8aca;
+  --accent-hover: #5a9ada;
+  --danger: #e06060;
+  --danger-hover: #f07070;
+  --success: #5aca7a;
+  --hp-bar-bg: #2a4a5a;
+  --hp-bar-low: #e09030;
+  --hp-bar-critical: #e06060;
+  --hp-bar-zero: #8a9aaa;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --header-bg: #203040;
+  --input-bg: #2a3a4a;
+  --input-border: #3a5a7a;
+  --toggle-bg: #3a5a7a;
+  --toggle-knob: #2a3a4a;
+  --strikethrough-color: #6a7a8a;
+  --card-stripe: #253545;
+}
+
+[data-theme="desert"][data-dark="true"] {
+  --bg-primary: #2a2018;
+  --bg-secondary: #302818;
+  --bg-card: #3a3020;
+  --text-primary: #e0d0b0;
+  --text-secondary: #a09070;
+  --border-color: #5a4a30;
+  --accent: #d09040;
+  --accent-hover: #e0a050;
+  --danger: #e06040;
+  --danger-hover: #f07050;
+  --success: #8aba50;
+  --hp-bar-bg: #3a3020;
+  --hp-bar-low: #e09030;
+  --hp-bar-critical: #e06040;
+  --hp-bar-zero: #a09070;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --header-bg: #302818;
+  --input-bg: #3a3020;
+  --input-border: #5a4a30;
+  --toggle-bg: #5a4a30;
+  --toggle-knob: #3a3020;
+  --strikethrough-color: #7a6a50;
+  --card-stripe: #352c1e;
+}
+
+[data-theme="forest"][data-dark="true"] {
+  --bg-primary: #1a2a1a;
+  --bg-secondary: #203020;
+  --bg-card: #2a3a2a;
+  --text-primary: #c0d8c0;
+  --text-secondary: #7a9a7a;
+  --border-color: #3a5a3a;
+  --accent: #5aca5a;
+  --accent-hover: #6ada6a;
+  --danger: #e06060;
+  --danger-hover: #f07070;
+  --success: #4aca5a;
+  --hp-bar-bg: #2a3a2a;
+  --hp-bar-low: #e09030;
+  --hp-bar-critical: #e06060;
+  --hp-bar-zero: #7a9a7a;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --header-bg: #203020;
+  --input-bg: #2a3a2a;
+  --input-border: #3a5a3a;
+  --toggle-bg: #3a5a3a;
+  --toggle-knob: #2a3a2a;
+  --strikethrough-color: #5a7a5a;
+  --card-stripe: #253025;
+}
+
+[data-theme="space"][data-dark="true"] {
+  --bg-primary: #1a1a2a;
+  --bg-secondary: #202030;
+  --bg-card: #2a2a3a;
+  --text-primary: #d0d0e0;
+  --text-secondary: #8888aa;
+  --border-color: #3a3a5a;
+  --accent: #5a9ada;
+  --accent-hover: #6aadea;
+  --danger: #e06060;
+  --danger-hover: #f07070;
+  --success: #5aca7a;
+  --hp-bar-bg: #2a2a3a;
+  --hp-bar-low: #e09030;
+  --hp-bar-critical: #e06060;
+  --hp-bar-zero: #8888aa;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --header-bg: #202030;
+  --input-bg: #2a2a3a;
+  --input-border: #3a3a5a;
+  --toggle-bg: #3a3a5a;
+  --toggle-knob: #2a2a3a;
+  --strikethrough-color: #666688;
+  --card-stripe: #252535;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: background-color 0.3s;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+nav select {
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  min-width: 150px;
+  max-width: 250px;
+}
+
+.btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-hover);
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+main {
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.creator {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.creator h2 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.2s, background-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+  transition: background-color 0.3s, border-color 0.3s;
+  width: 100%;
+}
+
+.card.zero-hp {
+  background-color: var(--hp-bar-zero);
+  color: #ccc;
+}
+
+.card.zero-hp .card-name,
+.card.zero-hp .card-class,
+.card.zero-hp .card-level,
+.card.zero-hp .card-notes,
+.card.zero-hp .hp-display,
+.card.zero-hp .hp-bar-container,
+.card.zero-hp .card-actions {
+  text-decoration: line-through;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.card-level {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.card-class {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.hp-display {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.hp-bar-container {
+  height: 12px;
+  background-color: var(--hp-bar-bg);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.hp-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s, background-color 0.3s;
+  min-width: 2px;
+}
+
+.hp-bar.normal {
+  background-color: var(--success);
+}
+
+.hp-bar.low {
+  background-color: var(--hp-bar-low);
+}
+
+.hp-bar.critical {
+  background-color: var(--hp-bar-critical);
+}
+
+.hp-bar.zero {
+  background-color: var(--hp-bar-zero);
+}
+
+.card-notes {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.card-notes img {
+  max-width: 100%;
+}
+
+.card-notes h1, .card-notes h2, .card-notes h3 {
+  margin: 4px 0;
+}
+
+.card-notes p {
+  margin: 2px 0;
+}
+
+.card-notes ul, .card-notes ol {
+  margin: 2px 0;
+  padding-left: 20px;
+}
+
+.card-notes blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 8px;
+  margin: 4px 0;
+  color: var(--text-secondary);
+}
+
+.card-notes code {
+  background-color: var(--card-stripe);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.card-notes pre {
+  background-color: var(--card-stripe);
+  padding: 6px 8px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.8rem;
+}
+
+.card-notes pre code {
+  background: none;
+  padding: 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+  justify-content: space-between;
+}
+
+.hp-controls {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.hp-controls .btn {
+  flex: 1;
+  min-width: 40px;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+.hp-controls .btn:active {
+  transform: scale(0.95);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: flex-end;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+#return-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#return-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#return-top:hover {
+  background-color: var(--accent-hover);
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 6px 10px;
+  }
+  header h1 {
+    font-size: 1.1rem;
+  }
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    max-width: 100%;
+  }
+  .btn {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+  .hp-controls .btn {
+    min-width: 36px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  }
+}
+
+@media (min-width: 901px) {
+  .cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  }
+}
+
+.dark-mode-toggle {
+  width: 44px;
+  height: 24px;
+  background-color: var(--toggle-bg);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: background-color 0.3s;
+}
+
+.dark-mode-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+[data-dark="true"] .dark-mode-toggle::after {
+  transform: translateX(20px);
+}
+
+.theme-select {
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}
+
+.import-input {
+  display: none;
+}
+</style>
+</head>
+<body data-theme="space" data-dark="false">
+
+<header>
+  <div class="header-left">
+    <h1>NPC Tracker</h1>
+    <nav>
+      <select id="char-nav" aria-label="Jump to character">
+        <option value="">-- Characters --</option>
+      </select>
+    </nav>
+    <button class="btn btn-sm" id="return-top-btn" title="Return to top">▲ Top</button>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-sm" id="import-btn">Import</button>
+    <input type="file" id="import-input" class="import-input" accept=".json">
+    <button class="btn btn-sm" id="export-btn">Export</button>
+    <button class="btn btn-sm btn-danger" id="delete-all-btn">Delete All</button>
+    <select id="theme-select" class="theme-select" aria-label="Color theme">
+      <option value="space">Space</option>
+      <option value="ocean">Ocean</option>
+      <option value="desert">Desert</option>
+      <option value="forest">Forest</option>
+    </select>
+    <button class="dark-mode-toggle" id="dark-toggle" aria-label="Toggle dark mode"></button>
+  </div>
+</header>
+
+<main>
+  <section class="creator" id="creator-section">
+    <h2>Character Creator</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="char-name">Name</label>
+        <input type="text" id="char-name" placeholder="Character name" required>
+      </div>
+      <div class="form-group">
+        <label for="char-class">Class</label>
+        <input type="text" id="char-class" placeholder="Class">
+      </div>
+      <div class="form-group">
+        <label for="char-level">Level</label>
+        <input type="number" id="char-level" placeholder="Level" min="0" value="1">
+      </div>
+      <div class="form-group">
+        <label for="char-hp">Current HP</label>
+        <input type="number" id="char-hp" placeholder="HP" value="0">
+      </div>
+      <div class="form-group">
+        <label for="char-maxhp">Max HP</label>
+        <input type="number" id="char-maxhp" placeholder="Max HP" min="0" value="10">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="char-notes">Notes</label>
+      <textarea id="char-notes" placeholder="Markdown notes..."></textarea>
+    </div>
+<div class="form-actions">
+       <button class="btn" id="cancel-btn">Cancel</button>
+       <button class="btn btn-accent" id="save-btn">Save</button>
+     </div>
+  </section>
+
+  <section class="cards-container" id="cards-container"></section>
+</main>
+
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h2>Edit Character</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="edit-name">Name</label>
+        <input type="text" id="edit-name" required>
+      </div>
+      <div class="form-group">
+        <label for="edit-class">Class</label>
+        <input type="text" id="edit-class">
+      </div>
+      <div class="form-group">
+        <label for="edit-level">Level</label>
+        <input type="number" id="edit-level" min="0" value="1">
+      </div>
+      <div class="form-group">
+        <label for="edit-hp">Current HP</label>
+        <input type="number" id="edit-hp" value="0">
+      </div>
+      <div class="form-group">
+        <label for="edit-maxhp">Max HP</label>
+        <input type="number" id="edit-maxhp" min="0" value="10">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="edit-notes">Notes</label>
+      <textarea id="edit-notes"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="edit-cancel-btn">Cancel</button>
+      <button class="btn btn-accent" id="edit-save-btn">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<button id="return-top">▲</button>
+
+<script>
+(function() {
+  var STORAGE_KEY = 'npc7_characters';
+  var DARK_KEY = 'npc7_dark_mode';
+  var THEME_KEY = 'npc7_theme';
+  var editingId = null;
+
+  function loadCharacters() {
+    try {
+      var data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch(e) {
+      return [];
+    }
+  }
+
+  function saveCharacters(chars) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chars));
+  }
+
+  function generateId() {
+    return 'char_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  function getHPClass(hp, maxHP) {
+    if (maxHP <= 0) return 'zero';
+    if (hp <= 0) return 'zero';
+    var pct = hp / maxHP;
+    if (pct <= 0.25) return 'critical';
+    if (pct <= 0.5) return 'low';
+    return 'normal';
+  }
+
+  function getHPPercent(hp, maxHP) {
+    if (maxHP <= 0) return 0;
+    var pct = Math.round((hp / maxHP) * 100);
+    return Math.max(0, Math.min(100, pct));
+  }
+
+  function renderCard(char) {
+    var hpClass = getHPClass(char.HP, char.maxHP);
+    var hpPct = getHPPercent(char.HP, char.maxHP);
+    var zeroClass = (char.HP <= 0) ? ' zero-hp' : '';
+    var notesHTML = '';
+    if (char.notes && char.notes.trim()) {
+      notesHTML = '<div class="card-notes">' + marked.parse(char.notes) + '</div>';
+    }
+
+    var html = '<div class="card' + zeroClass + '" data-id="' + char.id + '">';
+    html += '<div class="card-header">';
+    html += '<span class="card-name">' + escapeHTML(char.name) + '</span>';
+    html += '<span class="card-level">Lv ' + char.level + '</span>';
+    html += '</div>';
+    html += '<div class="card-class">' + escapeHTML(char.class || '') + '</div>';
+    html += '<div class="hp-display">' + char.HP + ' / ' + char.maxHP + ' HP</div>';
+    html += '<div class="hp-controls">';
+    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="-10">-10</button>';
+    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="-1">-1</button>';
+    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="+1">+1</button>';
+    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="+10">+10</button>';
+    html += '</div>';
+    html += '<div class="hp-bar-container"><div class="hp-bar ' + hpClass + '" style="width:' + hpPct + '%"></div></div>';
+    html += notesHTML;
+    html += '<div class="card-actions">';
+    html += '<button class="btn btn-sm edit-btn" data-id="' + char.id + '">Edit</button>';
+    html += '<button class="btn btn-sm btn-danger delete-btn" data-id="' + char.id + '">Delete</button>';
+    html += '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  function escapeHTML(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderAll() {
+    var chars = loadCharacters();
+    chars.sort(function(a, b) {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+
+    var container = document.getElementById('cards-container');
+    if (chars.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-secondary);padding:20px;">No characters yet. Create one above!</p>';
+    } else {
+      container.innerHTML = chars.map(renderCard).join('');
+    }
+
+    updateNav(chars);
+  }
+
+  function updateNav(chars) {
+    var nav = document.getElementById('char-nav');
+    var currentVal = nav.value;
+    nav.innerHTML = '<option value="">-- Characters --</option>';
+    chars.forEach(function(c) {
+      var opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.name;
+      nav.appendChild(opt);
+    });
+    nav.value = currentVal;
+  }
+
+  function clearCreator() {
+    document.getElementById('char-name').value = '';
+    document.getElementById('char-class').value = '';
+    document.getElementById('char-level').value = '1';
+    document.getElementById('char-hp').value = '0';
+    document.getElementById('char-maxhp').value = '10';
+    document.getElementById('char-notes').value = '';
+  }
+
+  function saveCharacter() {
+    var name = document.getElementById('char-name').value.trim();
+    if (!name) {
+      showToast('Name is required');
+      return;
+    }
+
+    var chars = loadCharacters();
+    var char = {
+      id: generateId(),
+      name: name,
+      class: document.getElementById('char-class').value.trim(),
+      level: parseInt(document.getElementById('char-level').value) || 0,
+      maxHP: parseInt(document.getElementById('char-maxhp').value) || 0,
+      HP: parseInt(document.getElementById('char-hp').value) || 0,
+      notes: document.getElementById('char-notes').value
+    };
+
+    chars.push(char);
+    saveCharacters(chars);
+    clearCreator();
+    renderAll();
+    showToast('Character created');
+  }
+
+  function updateCharacter() {
+    if (!editingId) return;
+
+    var name = document.getElementById('edit-name').value.trim();
+    if (!name) {
+      showToast('Name is required');
+      return;
+    }
+
+    var chars = loadCharacters();
+    var idx = chars.findIndex(function(c) { return c.id === editingId; });
+    if (idx === -1) return;
+
+    chars[idx].name = name;
+    chars[idx].class = document.getElementById('edit-class').value.trim();
+    chars[idx].level = parseInt(document.getElementById('edit-level').value) || 0;
+    chars[idx].maxHP = parseInt(document.getElementById('edit-maxhp').value) || 0;
+    chars[idx].HP = parseInt(document.getElementById('edit-hp').value) || 0;
+    chars[idx].notes = document.getElementById('edit-notes').value;
+
+    saveCharacters(chars);
+    closeEditModal();
+    renderAll();
+    showToast('Character updated');
+  }
+
+  function openEditModal(id) {
+    var chars = loadCharacters();
+    var char = chars.find(function(c) { return c.id === id; });
+    if (!char) return;
+
+    editingId = id;
+    document.getElementById('edit-name').value = char.name;
+    document.getElementById('edit-class').value = char.class || '';
+    document.getElementById('edit-level').value = char.level;
+    document.getElementById('edit-hp').value = char.HP;
+    document.getElementById('edit-maxhp').value = char.maxHP;
+    document.getElementById('edit-notes').value = char.notes || '';
+    document.getElementById('edit-modal').classList.add('active');
+  }
+
+  function closeEditModal() {
+    editingId = null;
+    document.getElementById('edit-modal').classList.remove('active');
+  }
+
+  function deleteCharacter(id) {
+    if (!confirm('Delete this character?')) return;
+    var chars = loadCharacters();
+    chars = chars.filter(function(c) { return c.id !== id; });
+    saveCharacters(chars);
+    renderAll();
+    showToast('Character deleted');
+  }
+
+  function deleteAll() {
+    if (!confirm('Delete all characters? This cannot be undone.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    renderAll();
+    showToast('All characters deleted');
+  }
+
+  function adjustHP(id, delta) {
+    var chars = loadCharacters();
+    var char = chars.find(function(c) { return c.id === id; });
+    if (!char) return;
+    char.HP = char.HP + delta;
+    saveCharacters(chars);
+    renderAll();
+  }
+
+  function exportJSON() {
+    var chars = loadCharacters();
+    var blob = new Blob([JSON.stringify(chars, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'npc_characters.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Characters exported');
+  }
+
+  function importJSON(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var imported = JSON.parse(e.target.result);
+        if (!Array.isArray(imported)) {
+          showToast('Invalid JSON format');
+          return;
+        }
+        var chars = loadCharacters();
+        var existingIds = new Set(chars.map(function(c) { return c.id; }));
+        var newCount = 0;
+
+        imported.forEach(function(item) {
+          if (!item.id || existingIds.has(item.id)) {
+            item.id = generateId();
+          }
+          existingIds.add(item.id);
+          chars.push(item);
+          newCount++;
+        });
+
+        saveCharacters(chars);
+        renderAll();
+        showToast('Imported ' + newCount + ' character(s)');
+      } catch(err) {
+        showToast('Error importing JSON');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2000);
+  }
+
+  function initTheme() {
+    var savedTheme = localStorage.getItem(THEME_KEY) || 'space';
+    document.body.setAttribute('data-theme', savedTheme);
+    document.getElementById('theme-select').value = savedTheme;
+  }
+
+  function initDarkMode() {
+    var savedDark = localStorage.getItem(DARK_KEY) === 'true';
+    document.body.setAttribute('data-dark', savedDark ? 'true' : 'false');
+  }
+
+  function setupEvents() {
+    document.getElementById('save-btn').addEventListener('click', saveCharacter);
+    document.getElementById('cancel-btn').addEventListener('click', clearCreator);
+    document.getElementById('edit-save-btn').addEventListener('click', updateCharacter);
+    document.getElementById('edit-cancel-btn').addEventListener('click', closeEditModal);
+    document.getElementById('delete-all-btn').addEventListener('click', deleteAll);
+    document.getElementById('export-btn').addEventListener('click', exportJSON);
+    document.getElementById('import-btn').addEventListener('click', function() {
+      document.getElementById('import-input').click();
+    });
+    document.getElementById('import-input').addEventListener('change', function(e) {
+      if (e.target.files[0]) {
+        importJSON(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+
+    document.getElementById('char-nav').addEventListener('change', function() {
+      var id = this.value;
+      if (!id) return;
+      var card = document.querySelector('.card[data-id="' + id + '"]');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.boxShadow = '0 0 0 3px var(--accent)';
+        setTimeout(function() {
+          card.style.boxShadow = '';
+        }, 2000);
+      }
+      this.value = '';
+    });
+
+    document.getElementById('return-top-btn').addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('return-top').addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('theme-select').addEventListener('change', function() {
+      document.body.setAttribute('data-theme', this.value);
+      localStorage.setItem(THEME_KEY, this.value);
+    });
+
+    document.getElementById('dark-toggle').addEventListener('click', function() {
+      var isDark = document.body.getAttribute('data-dark') === 'true';
+      var newDark = !isDark;
+      document.body.setAttribute('data-dark', newDark ? 'true' : 'false');
+      localStorage.setItem(DARK_KEY, newDark ? 'true' : 'false');
+    });
+
+    document.getElementById('edit-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeEditModal();
+      }
+    });
+
+    document.getElementById('cards-container').addEventListener('click', function(e) {
+      var hpBtn = e.target.closest('.hp-btn');
+      if (hpBtn) {
+        var id = hpBtn.getAttribute('data-id');
+        var delta = parseInt(hpBtn.getAttribute('data-delta'));
+        adjustHP(id, delta);
+        return;
+      }
+
+      var editBtn = e.target.closest('.edit-btn');
+      if (editBtn) {
+        openEditModal(editBtn.getAttribute('data-id'));
+        return;
+      }
+
+      var deleteBtn = e.target.closest('.delete-btn');
+      if (deleteBtn) {
+        deleteCharacter(deleteBtn.getAttribute('data-id'));
+        return;
+      }
+    });
+
+    window.addEventListener('scroll', function() {
+      var returnTop = document.getElementById('return-top');
+      if (window.scrollY > 300) {
+        returnTop.classList.add('visible');
+      } else {
+        returnTop.classList.remove('visible');
+      }
+    });
+  }
+
+  function init() {
+    initTheme();
+    initDarkMode();
+    setupEvents();
+    renderAll();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
