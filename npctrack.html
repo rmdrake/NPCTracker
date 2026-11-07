@@ -1,1274 +1,807 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="space" data-mode="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 <title>NPC Tracker</title>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='8' width='48' height='48' rx='10' fill='%234a628c'/%3E%3Ccircle cx='24' cy='24' r='5' fill='white'/%3E%3Ccircle cx='40' cy='40' r='5' fill='white'/%3E%3Ccircle cx='40' cy='24' r='4' fill='white'/%3E%3Ccircle cx='24' cy='40' r='4' fill='white'/%3E%3C/svg%3E">
+<script>(function () { try { var s = JSON.parse(localStorage.getItem('npc8.settings') || '{}'); document.documentElement.dataset.mode = (s.mode === 'dark') ? 'dark' : 'light'; if (['space', 'ocean', 'desert', 'forest'].indexOf(s.theme) >= 0) document.documentElement.dataset.theme = s.theme; } catch (e) {} })();</script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <style>
-:root {
-  --bg-primary: #f0f0f0;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555555;
-  --border-color: #d0d0d0;
-  --accent: #4a90d9;
-  --accent-hover: #3a7bc8;
-  --danger: #d94a4a;
-  --danger-hover: #c83a3a;
-  --success: #4ad96a;
-  --hp-bar-bg: #e0e0e0;
-  --hp-bar-low: #e07020;
-  --hp-bar-critical: #d94a4a;
-  --hp-bar-zero: #3a3a3a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.1);
-  --radius: 8px;
-  --header-bg: #ffffff;
-  --input-bg: #ffffff;
-  --input-border: #cccccc;
-  --toggle-bg: #d0d0d0;
-  --toggle-knob: #ffffff;
-  --strikethrough-color: #888888;
-  --card-stripe: #f5f5f5;
-}
+:root { color-scheme: light; }
+html[data-mode="dark"] { color-scheme: dark; }
 
-[data-theme="ocean"] {
-  --bg-primary: #e8f0f8;
-  --bg-secondary: #f0f4fa;
-  --bg-card: #ffffff;
-  --text-primary: #1a2a3a;
-  --text-secondary: #4a6a7a;
-  --border-color: #b0c8e0;
-  --accent: #2a6aaa;
-  --accent-hover: #1a5a9a;
-  --danger: #c04040;
-  --danger-hover: #a03030;
-  --success: #3aaa6a;
-  --hp-bar-bg: #d0e0f0;
-  --hp-bar-low: #e09030;
-  --hp-bar-critical: #c04040;
-  --hp-bar-zero: #2a3a4a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --header-bg: #f0f4fa;
-  --input-bg: #ffffff;
-  --input-border: #b0c8e0;
-  --toggle-bg: #b0c8e0;
-  --toggle-knob: #ffffff;
-  --strikethrough-color: #8090a0;
-  --card-stripe: #f0f4fa;
-}
+/* ---------- Color themes (light + dark) ---------- */
+html[data-theme="space"][data-mode="light"]  { --bg:#e9ebef; --surface:#ffffff; --surface-2:#f1f4f8; --text:#1b2027; --muted:#5c6673; --border:#d2d9e2; --accent:#4a628c; --on-accent:#ffffff; --focus:rgba(74,98,140,.35); }
+html[data-theme="space"][data-mode="dark"]   { --bg:#14171c; --surface:#1d222b; --surface-2:#242c38; --text:#e7ebf1; --muted:#9aa6b5; --border:#333d4c; --accent:#7fa0cf; --on-accent:#10151d; --focus:rgba(127,160,207,.4); }
+html[data-theme="ocean"][data-mode="light"]  { --bg:#e8f1f7; --surface:#ffffff; --surface-2:#eff6fb; --text:#13303f; --muted:#4c6a80; --border:#bfd6e5; --accent:#106ea5; --on-accent:#ffffff; --focus:rgba(16,110,165,.3); }
+html[data-theme="ocean"][data-mode="dark"]   { --bg:#0b141d; --surface:#13202c; --surface-2:#1a2938; --text:#daeaf5; --muted:#7fa3bd; --border:#2c455c; --accent:#57a9dc; --on-accent:#0b141d; --focus:rgba(87,169,220,.4); }
+html[data-theme="desert"][data-mode="light"] { --bg:#f5eddd; --surface:#fffbf3; --surface-2:#f7efe0; --text:#3b2b17; --muted:#7c6a4f; --border:#d9c49c; --accent:#ad5c1c; --on-accent:#ffffff; --focus:rgba(173,92,28,.3); }
+html[data-theme="desert"][data-mode="dark"]  { --bg:#191208; --surface:#241a0e; --surface-2:#2d2213; --text:#f1e3cb; --muted:#bd9f78; --border:#4b3822; --accent:#de9a55; --on-accent:#221204; --focus:rgba(222,154,85,.4); }
+html[data-theme="forest"][data-mode="light"] { --bg:#ecf1e3; --surface:#fdfefb; --surface-2:#f0f5e6; --text:#1d2c1e; --muted:#5a7859; --border:#c1d1b4; --accent:#2f7d4e; --on-accent:#ffffff; --focus:rgba(47,125,78,.3); }
+html[data-theme="forest"][data-mode="dark"]  { --bg:#121b13; --surface:#1a271e; --surface-2:#223126; --text:#dcebda; --muted:#87a489; --border:#30503a; --accent:#5fbe79; --on-accent:#0c1a10; --focus:rgba(95,190,121,.4); }
 
-[data-theme="desert"] {
-  --bg-primary: #faf0e0;
-  --bg-secondary: #fdf0e0;
-  --bg-card: #fffaf5;
-  --text-primary: #3a2a1a;
-  --text-secondary: #7a6a5a;
-  --border-color: #d0b890;
-  --accent: #b87a30;
-  --accent-hover: #a06820;
-  --danger: #c05030;
-  --danger-hover: #a04020;
-  --success: #6a9a40;
-  --hp-bar-bg: #e8d0b0;
-  --hp-bar-low: #d08030;
-  --hp-bar-critical: #c05030;
-  --hp-bar-zero: #3a2a1a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --header-bg: #fdf0e0;
-  --input-bg: #fffaf5;
-  --input-border: #d0b890;
-  --toggle-bg: #d0b890;
-  --toggle-knob: #fffaf5;
-  --strikethrough-color: #a09080;
-  --card-stripe: #fdf0e0;
-}
+html[data-mode="light"] { --hp-ok:#2f9e4f; --hp-half:#d3801a; --hp-crit:#cd3b3b; }
+html[data-mode="dark"]  { --hp-ok:#55c07b; --hp-half:#e6982f; --hp-crit:#dd5454; }
 
-[data-theme="forest"] {
-  --bg-primary: #e8f0e8;
-  --bg-secondary: #f0f8f0;
-  --bg-card: #ffffff;
-  --text-primary: #1a2a1a;
-  --text-secondary: #4a6a4a;
-  --border-color: #b0c8b0;
-  --accent: #3a7a3a;
-  --accent-hover: #2a6a2a;
-  --danger: #c04040;
-  --danger-hover: #a03030;
-  --success: #3a8a3a;
-  --hp-bar-bg: #c8e0c8;
-  --hp-bar-low: #d09030;
-  --hp-bar-critical: #c04040;
-  --hp-bar-zero: #2a3a2a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --header-bg: #f0f8f0;
-  --input-bg: #ffffff;
-  --input-border: #b0c8b0;
-  --toggle-bg: #b0c8b0;
-  --toggle-knob: #ffffff;
-  --strikethrough-color: #809080;
-  --card-stripe: #f0f8f0;
-}
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); transition: background-color .25s ease, color .25s ease; }
 
-[data-theme="space"] {
-  --bg-primary: #e0e0e0;
-  --bg-secondary: #f0f0f0;
-  --bg-card: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555555;
-  --border-color: #d0d0d0;
-  --accent: #4a90d9;
-  --accent-hover: #3a7bc8;
-  --danger: #d94a4a;
-  --danger-hover: #c83a3a;
-  --success: #4ad96a;
-  --hp-bar-bg: #e0e0e0;
-  --hp-bar-low: #e07020;
-  --hp-bar-critical: #d94a4a;
-  --hp-bar-zero: #3a3a3a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.1);
-  --header-bg: #ffffff;
-  --input-bg: #ffffff;
-  --input-border: #cccccc;
-  --toggle-bg: #d0d0d0;
-  --toggle-knob: #ffffff;
-  --strikethrough-color: #888888;
-  --card-stripe: #f5f5f5;
-}
-
-[data-theme="ocean"][data-dark="true"] {
-  --bg-primary: #1a2a3a;
-  --bg-secondary: #203040;
-  --bg-card: #2a3a4a;
-  --text-primary: #d0e0f0;
-  --text-secondary: #8a9aaa;
-  --border-color: #3a5a7a;
-  --accent: #4a8aca;
-  --accent-hover: #5a9ada;
-  --danger: #e06060;
-  --danger-hover: #f07070;
-  --success: #5aca7a;
-  --hp-bar-bg: #2a4a5a;
-  --hp-bar-low: #e09030;
-  --hp-bar-critical: #e06060;
-  --hp-bar-zero: #8a9aaa;
-  --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --header-bg: #203040;
-  --input-bg: #2a3a4a;
-  --input-border: #3a5a7a;
-  --toggle-bg: #3a5a7a;
-  --toggle-knob: #2a3a4a;
-  --strikethrough-color: #6a7a8a;
-  --card-stripe: #253545;
-}
-
-[data-theme="desert"][data-dark="true"] {
-  --bg-primary: #2a2018;
-  --bg-secondary: #302818;
-  --bg-card: #3a3020;
-  --text-primary: #e0d0b0;
-  --text-secondary: #a09070;
-  --border-color: #5a4a30;
-  --accent: #d09040;
-  --accent-hover: #e0a050;
-  --danger: #e06040;
-  --danger-hover: #f07050;
-  --success: #8aba50;
-  --hp-bar-bg: #3a3020;
-  --hp-bar-low: #e09030;
-  --hp-bar-critical: #e06040;
-  --hp-bar-zero: #a09070;
-  --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --header-bg: #302818;
-  --input-bg: #3a3020;
-  --input-border: #5a4a30;
-  --toggle-bg: #5a4a30;
-  --toggle-knob: #3a3020;
-  --strikethrough-color: #7a6a50;
-  --card-stripe: #352c1e;
-}
-
-[data-theme="forest"][data-dark="true"] {
-  --bg-primary: #1a2a1a;
-  --bg-secondary: #203020;
-  --bg-card: #2a3a2a;
-  --text-primary: #c0d8c0;
-  --text-secondary: #7a9a7a;
-  --border-color: #3a5a3a;
-  --accent: #5aca5a;
-  --accent-hover: #6ada6a;
-  --danger: #e06060;
-  --danger-hover: #f07070;
-  --success: #4aca5a;
-  --hp-bar-bg: #2a3a2a;
-  --hp-bar-low: #e09030;
-  --hp-bar-critical: #e06060;
-  --hp-bar-zero: #7a9a7a;
-  --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --header-bg: #203020;
-  --input-bg: #2a3a2a;
-  --input-border: #3a5a3a;
-  --toggle-bg: #3a5a3a;
-  --toggle-knob: #2a3a2a;
-  --strikethrough-color: #5a7a5a;
-  --card-stripe: #253025;
-}
-
-[data-theme="space"][data-dark="true"] {
-  --bg-primary: #1a1a2a;
-  --bg-secondary: #202030;
-  --bg-card: #2a2a3a;
-  --text-primary: #d0d0e0;
-  --text-secondary: #8888aa;
-  --border-color: #3a3a5a;
-  --accent: #5a9ada;
-  --accent-hover: #6aadea;
-  --danger: #e06060;
-  --danger-hover: #f07070;
-  --success: #5aca7a;
-  --hp-bar-bg: #2a2a3a;
-  --hp-bar-low: #e09030;
-  --hp-bar-critical: #e06060;
-  --hp-bar-zero: #8888aa;
-  --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --header-bg: #202030;
-  --input-bg: #2a2a3a;
-  --input-border: #3a3a5a;
-  --toggle-bg: #3a3a5a;
-  --toggle-knob: #2a2a3a;
-  --strikethrough-color: #666688;
-  --card-stripe: #252535;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: var(--header-bg);
-  border-bottom: 1px solid var(--border-color);
-  box-shadow: var(--shadow);
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  transition: background-color 0.3s;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-header h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-nav select {
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  background-color: var(--input-bg);
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  min-width: 150px;
-  max-width: 250px;
-}
-
-.btn {
-  padding: 6px 14px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: background-color 0.2s, border-color 0.2s;
-  white-space: nowrap;
-}
-
-.btn:hover {
-  opacity: 0.85;
-}
-
-.btn-accent {
-  background-color: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.btn-accent:hover {
-  background-color: var(--accent-hover);
-}
-
-.btn-danger {
-  background-color: var(--danger);
-  color: #fff;
-  border-color: var(--danger);
-}
-
-.btn-danger:hover {
-  background-color: var(--danger-hover);
-}
-
-.btn-sm {
-  padding: 4px 10px;
-  font-size: 0.8rem;
-}
-
-main {
-  width: 100%;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.creator {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow);
-  width: 100%;
-}
-
-.creator h2 {
-  margin-bottom: 12px;
-  font-size: 1.1rem;
-  color: var(--accent);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-@media (max-width: 600px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.form-group label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.form-group input,
-.form-group textarea {
-  padding: 8px 10px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--radius);
-  background-color: var(--input-bg);
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  font-family: inherit;
-  transition: border-color 0.2s, background-color 0.3s;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-  justify-content: flex-end;
-}
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
-  gap: 16px;
-  width: 100%;
-}
-
-.card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  padding: 14px;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  min-height: 120px;
-  transition: background-color 0.3s, border-color 0.3s;
-  width: 100%;
-}
-
-.card.zero-hp {
-  background-color: var(--hp-bar-zero);
-  color: #ccc;
-}
-
-.card.zero-hp .card-name,
-.card.zero-hp .card-class,
-.card.zero-hp .card-level,
-.card.zero-hp .card-notes,
-.card.zero-hp .hp-display,
-.card.zero-hp .hp-bar-container,
-.card.zero-hp .card-actions {
-  text-decoration: line-through;
-  color: inherit;
-  opacity: 0.6;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 4px;
-}
-
-.card-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  word-break: break-word;
-}
-
-.card-level {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  margin-left: 8px;
-}
-
-.card-class {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.hp-display {
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--text-primary);
-}
-
-.hp-bar-container {
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar {
+  width: 12px;
   height: 12px;
-  background-color: var(--hp-bar-bg);
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 8px;
 }
 
-.hp-bar {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.3s, background-color 0.3s;
-  min-width: 2px;
+::-webkit-scrollbar-track {
+  background: var(--bg);
 }
 
-.hp-bar.normal {
-  background-color: var(--success);
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border: 3px solid var(--bg);
+  border-radius: 10px;
 }
 
-.hp-bar.low {
-  background-color: var(--hp-bar-low);
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
-.hp-bar.critical {
-  background-color: var(--hp-bar-critical);
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) var(--bg);
 }
 
-.hp-bar.zero {
-  background-color: var(--hp-bar-zero);
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+button, select, input, textarea { font: inherit; color: inherit; }
+
+/* ---------- Sticky header ---------- */
+.topbar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,.08); transition: background-color .25s ease, border-color .25s ease; }
+.topbar__left, .topbar__right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.title { margin: 0 4px 0 0; font-size: 1.2rem; letter-spacing: .5px; white-space: nowrap; text-transform: uppercase; font-weight: 800; color: var(--accent); }
+
+.btn, .select { appearance: none; cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 13px; line-height: 1.1; font-size: .92rem; transition: filter .15s ease, transform .05s ease, background-color .2s ease, color .2s ease; }
+.btn:hover, .select:hover { filter: brightness(1.07); }
+html[data-mode="dark"] .btn:hover, html[data-mode="dark"] .select:hover { filter: brightness(1.18); }
+.btn:active, .select:active { transform: translateY(1px); }
+.btn[disabled], .select[disabled] { opacity: .45; cursor: not-allowed; pointer-events: none; }
+.btn:focus-visible, .select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.btn--accent { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.btn--danger:hover { border-color: var(--hp-crit); color: var(--hp-crit); filter: brightness(1.04); }
+.select { padding-right: 28px; min-width: 170px; max-width: 34vw; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+
+/* ---------- Page layout (fluid, full width) ---------- */
+.page { width: 100%; padding: 22px clamp(14px, 3vw, 42px) 64px; display: flex; flex-direction: column; gap: 28px; }
+.section-title { margin: 0 0 14px; font-size: .95rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; }
+
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; box-shadow: 0 2px 8px rgba(0,0,0,.05); transition: background-color .25s ease, border-color .25s ease; }
+
+/* ---------- Creator form ---------- */
+.fields { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); align-items: start; }
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field > span { font-size: .74rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+.field input, .field textarea { width: 100%; resize: vertical; min-height: 34px; padding: 8px 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; transition: background-color .2s ease, border-color .2s ease; }
+.field textarea { min-height: 96px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; line-height: 1.45; }
+.creator__btns { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+/* ---------- Card grid ---------- */
+.grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 550px), 640px)); justify-content: center; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 38px 20px; border: 2px dashed var(--border); border-radius: 14px; background: transparent; font-size: .95rem; line-height: 1.6; }
+
+.card { position: relative; display: flex; flex-direction: column; gap: 11px; overflow: hidden; min-height: 250px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 14px; box-shadow: 0 3px 12px rgba(0,0,0,.07); transition: transform .15s ease, background-color .25s ease, border-color .25s ease, filter .25s ease, opacity .25s ease; scroll-margin-top: 96px; }
+.card:hover { transform: translateY(-2px); }
+.card[data-status="half"]     { border-top-color: var(--hp-half); }
+.card[data-status="critical"] { border-top-color: var(--hp-crit); }
+.card[data-status="down"]     { border-top-color: var(--muted); background: #7a8089; background: color-mix(in srgb, var(--surface) 52%, var(--bg)); filter: saturate(.45) brightness(.97); opacity: .93; }
+.card.flash { animation: flash .9s ease-in-out 4; }
+@keyframes flash {
+  0%, 100% { box-shadow: 0 3px 12px rgba(0,0,0,.07); }
+  50% { box-shadow: 0 0 0 3px var(--accent), 0 3px 22px var(--focus); }
 }
 
-.card-notes {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  word-break: break-word;
-}
+.card__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-width: 0; }
+.card__name { margin: 0; font-size: 1.4rem; line-height: 1.25; overflow-wrap: anywhere; font-weight: 700; }
+.card[data-status="down"] .card__name { text-decoration: line-through; color: var(--muted); }
+.card__level { flex-shrink: 0; font-weight: 700; font-size: .8rem; letter-spacing: .6px; padding: 4px 12px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); white-space: nowrap; text-transform: uppercase; }
+.card__class { margin: -3px 0 0; font-size: .85rem; color: var(--muted); text-transform: capitalize; letter-spacing: .4px; overflow-wrap: anywhere; }
 
-.card-notes img {
-  max-width: 100%;
-}
+.hp-area { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.hp-left { font-size: .95rem; white-space: nowrap; }
+.hp-val, .max-val { font-weight: 700; font-size: 1.02rem; }
+.card[data-status="half"] .hp-val     { color: var(--hp-half); }
+.card[data-status="critical"] .hp-val,
+.card[data-status="down"] .hp-val     { color: var(--hp-crit); }
+.hp-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
 
-.card-notes h1, .card-notes h2, .card-notes h3 {
-  margin: 4px 0;
-}
+.status-chip { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); white-space: nowrap; }
+.status-chip:empty { display: none; }
+.card[data-status="half"] .status-chip     { color: var(--hp-half); border-color: var(--hp-half); }
+.card[data-status="critical"] .status-chip,
+.card[data-status="down"] .status-chip     { color: var(--hp-crit); border-color: var(--hp-crit); }
 
-.card-notes p {
-  margin: 2px 0;
-}
+.hp-pct { font-size: .82rem; font-weight: 700; min-width: 52px; text-align: right; color: var(--muted); white-space: nowrap; }
 
-.card-notes ul, .card-notes ol {
-  margin: 2px 0;
-  padding-left: 20px;
-}
+.hp-track { height: 12px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
+.hp-fill { height: 100%; width: 0%; border-radius: 999px; background: var(--hp-ok); transition: width .35s ease, background-color .25s ease; }
+.card[data-status="half"] .hp-fill     { background: var(--hp-half); }
+.card[data-status="critical"] .hp-fill { background: var(--hp-crit); }
+.card[data-status="down"] .hp-fill     { background: var(--muted); }
 
-.card-notes blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: 8px;
-  margin: 4px 0;
-  color: var(--text-secondary);
-}
+.hp-btns { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.btn--hp { text-align: center; font-weight: 700; padding: 8px 0; letter-spacing: .3px; user-select: none; }
 
-.card-notes code {
-  background-color: var(--card-stripe);
-  padding: 1px 4px;
-  border-radius: 3px;
-  font-size: 0.8rem;
-}
+.card__notes { overflow-wrap: anywhere; word-break: break-word; }
+.card__notes.is-empty { color: var(--muted); font-style: italic; font-size: .9rem; }
+.card__notes :is(p, ul, ol) { margin: .45rem 0; line-height: 1.55; font-size: .95rem; }
+.card__notes h1, .card__notes h2, .card__notes h3, .card__notes h4 { line-height: 1.3; margin: .75rem 0 .3rem; }
+.card__notes code { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; font-size: .85em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.card__notes pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; overflow-x: auto; }
+.card__notes blockquote { margin: .5rem 0; padding-left: 12px; border-left: 3px solid var(--accent); color: var(--muted); }
+.card__notes a { color: var(--accent); word-break: break-all; }
 
-.card-notes pre {
-  background-color: var(--card-stripe);
-  padding: 6px 8px;
-  border-radius: var(--radius);
-  overflow-x: auto;
-  font-size: 0.8rem;
-}
+.card__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 6px; border-top: 1px solid var(--border); }
 
-.card-notes pre code {
-  background: none;
-  padding: 0;
-}
+/* ---------- Toast ---------- */
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px); max-width: min(92vw, 520px); padding: 10px 18px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.25); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 30; font-size: .9rem; text-align: center; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-.card-actions {
-  display: flex;
-  gap: 4px;
-  margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-color);
-  justify-content: space-between;
-}
-
-.hp-controls {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.hp-controls .btn {
-  flex: 1;
-  min-width: 40px;
-  text-align: center;
-  font-size: 0.8rem;
-  padding: 4px 8px;
-}
-
-.hp-controls .btn:active {
-  transform: scale(0.95);
-}
-
-.modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 200;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-overlay.active {
-  display: flex;
-}
-
-.modal {
-  background-color: var(--bg-card);
-  border-radius: var(--radius);
-  padding: 20px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal h2 {
-  margin-bottom: 12px;
-  color: var(--accent);
-}
-
-.modal-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  justify-content: flex-end;
-}
-
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--text-primary);
-  color: var(--bg-primary);
-  padding: 10px 20px;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  z-index: 300;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-.toast.show {
-  opacity: 1;
-}
-
-.hidden {
-  display: none;
-}
-
-#return-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 50;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--accent);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-#return-top.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#return-top:hover {
-  background-color: var(--accent-hover);
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 6px 10px;
-  }
-  header h1 {
-    font-size: 1.1rem;
-  }
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
-  .card {
-    max-width: 100%;
-  }
-  .btn {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
-  .hp-controls .btn {
-    min-width: 36px;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .cards-container {
-    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
-  }
-}
-
-@media (min-width: 901px) {
-  .cards-container {
-    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
-  }
-}
-
-.dark-mode-toggle {
-  width: 44px;
-  height: 24px;
-  background-color: var(--toggle-bg);
-  border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  transition: background-color 0.3s;
-}
-
-.dark-mode-toggle::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  background-color: var(--toggle-knob);
-  border-radius: 50%;
-  transition: transform 0.3s;
-}
-
-[data-dark="true"] .dark-mode-toggle::after {
-  transform: translateX(20px);
-}
-
-.theme-select {
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  background-color: var(--input-bg);
-  color: var(--text-primary);
-  font-size: 0.85rem;
-}
-
-.import-input {
-  display: none;
+/* ---------- Small screens ---------- */
+@media (max-width: 760px) {
+  .topbar { align-items: flex-start; }
+  .title { font-size: 1.02rem; }
+  .select { min-width: 130px; max-width: none; flex: 1 1 auto; }
+  .grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .card { min-height: 0; padding: 14px 15px; }
 }
 </style>
 </head>
-<body data-theme="space" data-dark="false">
+<body>
 
-<header>
-  <div class="header-left">
-    <h1>NPC Tracker</h1>
-    <nav>
-      <select id="char-nav" aria-label="Jump to character">
-        <option value="">-- Characters --</option>
-      </select>
-    </nav>
-    <button class="btn btn-sm" id="return-top-btn" title="Return to top">▲ Top</button>
+<header class="topbar">
+  <div class="topbar__left">
+    <h1 class="title">NPC Tracker</h1>
+    <select id="tocSelect" class="select" aria-label="Jump to character"></select>
+    <button id="toTopBtn" class="btn" type="button">↑ Top</button>
   </div>
-  <div class="header-right">
-    <button class="btn btn-sm" id="import-btn">Import</button>
-    <input type="file" id="import-input" class="import-input" accept=".json">
-    <button class="btn btn-sm" id="export-btn">Export</button>
-    <button class="btn btn-sm btn-danger" id="delete-all-btn">Delete All</button>
-    <select id="theme-select" class="theme-select" aria-label="Color theme">
+  <div class="topbar__right">
+    <button id="importBtn" class="btn" type="button">Import</button>
+    <input id="importFile" type="file" accept=".json,application/json" hidden>
+    <button id="exportBtn" class="btn" type="button">Export</button>
+    <button id="deleteAllBtn" class="btn btn--danger" type="button">Delete All</button>
+    <select id="themeSelect" class="select" aria-label="Color theme">
       <option value="space">Space</option>
       <option value="ocean">Ocean</option>
       <option value="desert">Desert</option>
       <option value="forest">Forest</option>
     </select>
-    <button class="dark-mode-toggle" id="dark-toggle" aria-label="Toggle dark mode"></button>
+    <button id="darkModeBtn" class="btn" type="button" aria-pressed="false">Dark Mode</button>
   </div>
 </header>
 
-<main>
-  <section class="creator" id="creator-section">
-    <h2>Character Creator</h2>
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="char-name">Name</label>
-        <input type="text" id="char-name" placeholder="Character name" required>
+<main class="page">
+  <section class="panel" aria-labelledby="creatorTitle">
+    <h2 class="section-title" id="creatorTitle">Character Creator</h2>
+    <form id="charForm" novalidate>
+      <div class="fields">
+        <label class="field"><span>Name *</span><input type="text" name="name" autocomplete="off" required placeholder="e.g. Sir Reginald"></label>
+        <label class="field"><span>Class</span><input type="text" name="class" autocomplete="off" placeholder="e.g. Fighter, Wizard…"></label>
+        <label class="field"><span>Level</span><input type="number" name="level" step="1" value="1"></label>
+        <label class="field"><span>Current HP</span><input type="number" name="HP" step="1" value="0"></label>
+        <label class="field"><span>Max HP</span><input type="number" name="maxHP" step="1" min="0" value="20"></label>
       </div>
-      <div class="form-group">
-        <label for="char-class">Class</label>
-        <input type="text" id="char-class" placeholder="Class">
+      <div class="fields" style="margin-top: 12px;">
+        <label class="field" style="grid-column: 1 / -1;"><span>Notes (Markdown supported)</span><textarea name="notes" rows="10" placeholder="# Notes&#10;- Supports **bold**, *italic*, `code`, lists…"></textarea></label>
       </div>
-      <div class="form-group">
-        <label for="char-level">Level</label>
-        <input type="number" id="char-level" placeholder="Level" min="0" value="1">
+      <div class="creator__btns">
+        <button type="submit" id="saveBtn" class="btn btn--accent">Save Character</button>
+        <button type="button" id="cancelBtn" class="btn">Cancel</button>
       </div>
-      <div class="form-group">
-        <label for="char-hp">Current HP</label>
-        <input type="number" id="char-hp" placeholder="HP" value="0">
-      </div>
-      <div class="form-group">
-        <label for="char-maxhp">Max HP</label>
-        <input type="number" id="char-maxhp" placeholder="Max HP" min="0" value="10">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="char-notes">Notes</label>
-      <textarea id="char-notes" placeholder="Markdown notes..."></textarea>
-    </div>
-<div class="form-actions">
-       <button class="btn" id="cancel-btn">Cancel</button>
-       <button class="btn btn-accent" id="save-btn">Save</button>
-     </div>
+    </form>
   </section>
 
-  <section class="cards-container" id="cards-container"></section>
+  <section aria-label="Characters">
+    <p id="hpAnnounce" class="sr-only" aria-live="polite"></p>
+    <div id="charGrid" class="grid"></div>
+  </section>
 </main>
 
-<div class="modal-overlay" id="edit-modal">
-  <div class="modal">
-    <h2>Edit Character</h2>
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="edit-name">Name</label>
-        <input type="text" id="edit-name" required>
-      </div>
-      <div class="form-group">
-        <label for="edit-class">Class</label>
-        <input type="text" id="edit-class">
-      </div>
-      <div class="form-group">
-        <label for="edit-level">Level</label>
-        <input type="number" id="edit-level" min="0" value="1">
-      </div>
-      <div class="form-group">
-        <label for="edit-hp">Current HP</label>
-        <input type="number" id="edit-hp" value="0">
-      </div>
-      <div class="form-group">
-        <label for="edit-maxhp">Max HP</label>
-        <input type="number" id="edit-maxhp" min="0" value="10">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="edit-notes">Notes</label>
-      <textarea id="edit-notes"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn" id="edit-cancel-btn">Cancel</button>
-      <button class="btn btn-accent" id="edit-save-btn">Save</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<button id="return-top">▲</button>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-(function() {
-  var STORAGE_KEY = 'npc7_characters';
-  var DARK_KEY = 'npc7_dark_mode';
-  var THEME_KEY = 'npc7_theme';
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'npc8.characters';
+  var SETTINGS_KEY = 'npc8.settings';
+  var THEMES = ['space', 'ocean', 'desert', 'forest'];
+
+  // ---------- State ----------
+  var characters = [];
   var editingId = null;
+  var toastTimer = null;
+
+  // ---------- DOM refs ----------
+  var rootEl = document.documentElement;
+  var grid = document.getElementById('charGrid');
+  var tocSelect = document.getElementById('tocSelect');
+  var toTopBtn = document.getElementById('toTopBtn');
+  var importBtn = document.getElementById('importBtn');
+  var importFile = document.getElementById('importFile');
+  var exportBtn = document.getElementById('exportBtn');
+  var deleteAllBtn = document.getElementById('deleteAllBtn');
+  var themeSelect = document.getElementById('themeSelect');
+  var darkModeBtn = document.getElementById('darkModeBtn');
+  var form = document.getElementById('charForm');
+  var saveBtn = document.getElementById('saveBtn');
+  var cancelBtn = document.getElementById('cancelBtn');
+  var creatorTitle = document.getElementById('creatorTitle');
+  var toastEl = document.getElementById('toast');
+  var hpAnnounce = document.getElementById('hpAnnounce');
+
+  // ---------- Storage (failure-tolerant) ----------
+  function safeGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function safeSet(key, val) { try { localStorage.setItem(key, val); return true; } catch (e) { return false; } }
+
+  // ---------- Small utilities ----------
+  function uid() {
+    var n = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+    return 'npc-' + n;
+  }
+  function toInt(v, fallback) {
+    if (typeof v === 'number') return isFinite(v) ? Math.round(v) : fallback;
+    var s = String(v == null ? '' : v).trim();
+    var n = parseInt(s, 10);
+    return isNaN(n) ? fallback : n;
+  }
+  function clampPct(fraction, lo, hi) {
+    var f = fraction < lo ? lo : (fraction > hi ? hi : fraction);
+    return Math.round(f * 100);
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---------- Data model (accepts the documented JSON shape, tolerates minor deviations) ----------
+  function normalizeChar(raw) {
+    raw = typeof raw === 'object' && raw !== null ? raw : {};
+    return {
+      id: (typeof raw.id === 'string' && raw.id.trim() !== '') || typeof raw.id === 'number' ? String(raw.id) : uid(),
+      name: String(raw.name == null ? '' : raw.name).trim(),
+      'class': String(raw['class'] == null ? '' : raw['class']).trim(),
+      level: Math.max(0, toInt(raw.level != null ? raw.level : raw.lvl, 1)),
+      maxHP: Math.max(0, toInt(raw.maxHP, 20)),
+      HP: toInt(raw.HP, 0), // intentionally allows < 1 and > maxHP (plan requirement)
+      notes: String(raw.notes == null ? '' : raw.notes)
+    };
+  }
+
+  function makePlain(c) {
+    return { id: c.id, name: c.name, 'class': c['class'], level: c.level, maxHP: c.maxHP, HP: c.HP, notes: c.notes };
+  }
 
   function loadCharacters() {
     try {
-      var data = localStorage.getItem(STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch(e) {
-      return [];
+      var raw = JSON.parse(safeGet(STORAGE_KEY) || '[]');
+      if (!Array.isArray(raw)) return [];
+      characters = raw.map(normalizeChar);
+      saveCharacters(); // persist canonicalized copy (repairs legacy/odd data once)
+    } catch (e) {
+      characters = [];
     }
   }
 
-  function saveCharacters(chars) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(chars));
+  function saveCharacters() { safeSet(STORAGE_KEY, JSON.stringify(characters)); }
+
+  function sortedChars() {
+    return characters.slice().sort(function (a, b) {
+      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) || String(a.id).localeCompare(String(b.id));
+    });
   }
 
-  function generateId() {
-    return 'char_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  function charById(id) {
+    for (var i = 0; i < characters.length; i++) if (characters[i].id === id) return characters[i];
+    return null;
   }
 
-  function getHPClass(hp, maxHP) {
-    if (maxHP <= 0) return 'zero';
-    if (hp <= 0) return 'zero';
-    var pct = hp / maxHP;
-    if (pct <= 0.25) return 'critical';
-    if (pct <= 0.5) return 'low';
-    return 'normal';
-  }
-
-  function getHPPercent(hp, maxHP) {
-    if (maxHP <= 0) return 0;
-    var pct = Math.round((hp / maxHP) * 100);
-    return Math.max(0, Math.min(100, pct));
-  }
-
-  function renderCard(char) {
-    var hpClass = getHPClass(char.HP, char.maxHP);
-    var hpPct = getHPPercent(char.HP, char.maxHP);
-    var zeroClass = (char.HP <= 0) ? ' zero-hp' : '';
-    var notesHTML = '';
-    if (char.notes && char.notes.trim()) {
-      notesHTML = '<div class="card-notes">' + marked.parse(char.notes) + '</div>';
+  // ---------- Status / HP math ----------
+  function statusOf(c) {
+    if (c.HP <= 0) return 'down';
+    if (c.maxHP > 0) {
+      var r = c.HP / c.maxHP;
+      if (r <= 1 / 4) return 'critical';
+      if (r <= 1 / 2) return 'half';
     }
+    return 'healthy';
+  }
+  function pctText(c) {
+    if (c.maxHP > 0) return Math.round((c.HP / c.maxHP) * 100) + '%';
+    return c.HP > 0 ? '\u221E' : '0%'; // \u221E = infinity sign
+  }
+  function barFraction(c) {
+    if (c.maxHP > 0) return clampPct(c.HP / c.maxHP, 0, 1) / 100;
+    return c.HP > 0 ? 1 : 0;
+  }
+  function statusChipText(s) {
+    if (s === 'half') return 'Half HP';
+    if (s === 'critical') return 'Critical';
+    if (s === 'down') return 'Down';
+    return '';
+  }
 
-    var html = '<div class="card' + zeroClass + '" data-id="' + char.id + '">';
-    html += '<div class="card-header">';
-    html += '<span class="card-name">' + escapeHTML(char.name) + '</span>';
-    html += '<span class="card-level">Lv ' + char.level + '</span>';
-    html += '</div>';
-    html += '<div class="card-class">' + escapeHTML(char.class || '') + '</div>';
-    html += '<div class="hp-display">' + char.HP + ' / ' + char.maxHP + ' HP</div>';
-    html += '<div class="hp-controls">';
-    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="-10">-10</button>';
-    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="-1">-1</button>';
-    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="+1">+1</button>';
-    html += '<button class="btn btn-sm hp-btn" data-id="' + char.id + '" data-delta="+10">+10</button>';
-    html += '</div>';
-    html += '<div class="hp-bar-container"><div class="hp-bar ' + hpClass + '" style="width:' + hpPct + '%"></div></div>';
-    html += notesHTML;
-    html += '<div class="card-actions">';
-    html += '<button class="btn btn-sm edit-btn" data-id="' + char.id + '">Edit</button>';
-    html += '<button class="btn btn-sm btn-danger delete-btn" data-id="' + char.id + '">Delete</button>';
-    html += '</div>';
-    html += '</div>';
+  // ---------- Toast / announcements ----------
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2800);
+  }
+  function announceHp(c) {
+    var msg = c.name + ": " + c.HP + " of " + c.maxHP + " HP (" + statusOf(c) + ")";
+    hpAnnounce.textContent = msg; // visually hidden but announced by screen readers
+    clearTimeout(announceHp._t);
+    announceHp._t = setTimeout(function () { if (hpAnnounce.textContent === msg) hpAnnounce.textContent = ''; }, 4500);
+  }
+
+  // ---------- Markdown rendering ----------
+  function fallbackMd(src) {
+    var esc = src.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return '<p>' + String(esc).split(/\n\s*\n+/).map(function (b) {
+      b = b.trim(); if (!b) return '';
+      return b.replace(/\n/g, '<br>');
+    }).filter(Boolean).join('</p><p>') + '</p>';
+  }
+
+  function sanitizeHtml(html) {
+    return String(html)
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script\s*>/gi, '')
+      .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+  }
+
+  function renderMarkdown(src) {
+    var raw = String(src || '').trim();
+    if (!raw) return '';
+    var html;
+    try {
+      if (typeof window.marked !== 'undefined') html = sanitizeHtml(window.marked.parse(raw, { breaks: true }));
+      else html = fallbackMd(raw);
+    } catch (e) {
+      html = '<p>' + escHtml(raw).replace(/\n/g, '<br>') + '</p>';
+    }
     return html;
   }
 
-  function escapeHTML(str) {
-    var div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
+  // ---------- Card construction & refresh ----------
+  function buildCard(c) {
+    var card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.id = c.id;
+    card.dataset.status = statusOf(c);
 
-  function renderAll() {
-    var chars = loadCharacters();
-    chars.sort(function(a, b) {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-    });
+    // --- Head: name + level
+    var head = document.createElement('div');
+    head.className = 'card__head';
+    var nameEl = document.createElement('h3');
+    nameEl.className = 'card__name';
+    nameEl.textContent = c.name;
+    var lvlEl = document.createElement('span');
+    lvlEl.className = 'card__level';
+    lvlEl.textContent = 'LVL ' + c.level;
+    head.appendChild(nameEl);
+    head.appendChild(lvlEl);
+    card.appendChild(head);
 
-    var container = document.getElementById('cards-container');
-    if (chars.length === 0) {
-      container.innerHTML = '<p style="color:var(--text-secondary);padding:20px;">No characters yet. Create one above!</p>';
-    } else {
-      container.innerHTML = chars.map(renderCard).join('');
+    // --- Class (optional)
+    if (c['class'] !== '') {
+      var cls = document.createElement('p');
+      cls.className = 'card__class';
+      cls.textContent = c['class'];
+      card.appendChild(cls);
     }
 
-    updateNav(chars);
+    // --- HP area: number + status chip + percent
+    var hpArea = document.createElement('div');
+    hpArea.className = 'hp-area';
+
+    var hpLeft = document.createElement('span');
+    hpLeft.className = 'hp-left';
+    var vEl = document.createElement('b');
+    vEl.className = 'hp-val';
+    vEl.textContent = c.HP;
+    hpLeft.appendChild(vEl);
+    hpLeft.appendChild(document.createTextNode(' / '));
+    var maxEl = document.createElement('span');
+    maxEl.className = 'max-val';
+    maxEl.textContent = c.maxHP;
+    hpLeft.appendChild(maxEl);
+
+    var hpRight = document.createElement('div');
+    hpRight.className = 'hp-right';
+    var chipEl = document.createElement('span');
+    chipEl.className = 'status-chip';
+    chipEl.textContent = statusChipText(statusOf(c));
+    var pctEl = document.createElement('span');
+    pctEl.className = 'hp-pct';
+    pctEl.textContent = pctText(c);
+    hpRight.appendChild(chipEl);
+    hpRight.appendChild(pctEl);
+
+    hpArea.appendChild(hpLeft);
+    hpArea.appendChild(hpRight);
+    card.appendChild(hpArea);
+
+    // --- HP bar (integer percent width, clamped to 0-100%)
+    var track = document.createElement('div');
+    track.className = 'hp-track';
+    var fill = document.createElement('div');
+    fill.className = 'hp-fill';
+    fill.style.width = Math.round(barFraction(c) * 100) + '%';
+    track.appendChild(fill);
+    card.appendChild(track);
+
+    // --- HP adjustment buttons: -10, -1, +1, +10
+    var btns = document.createElement('div');
+    btns.className = 'hp-btns';
+    [-10, -1, 1, 10].forEach(function (delta) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn btn--hp';
+      b.dataset.delta = String(delta);
+      b.textContent = delta > 0 ? '+' + delta : String(delta);
+      b.title = (delta > 0 ? 'Increase' : 'Decrease') + ' HP by ' + Math.abs(delta);
+      btns.appendChild(b);
+    });
+    card.appendChild(btns);
+
+    // --- Rendered markdown notes
+    var notesEl = document.createElement('div');
+    notesEl.className = 'card__notes';
+    if (c.notes && c.notes.trim() !== '') {
+      notesEl.innerHTML = renderMarkdown(c.notes);
+    } else {
+      notesEl.classList.add('is-empty');
+      notesEl.textContent = '\u2014 no notes \u2014'; // em dashes
+    }
+    card.appendChild(notesEl);
+
+    // --- Footer: Edit (left) / Delete (right)
+    var foot = document.createElement('div');
+    foot.className = 'card__foot';
+    var editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'btn';
+    editBtn.dataset.act = 'edit';
+    editBtn.textContent = 'Edit';
+    editBtn.title = "Edit '" + c.name + "'";
+    foot.appendChild(editBtn);
+
+    var delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'btn btn--danger';
+    delBtn.dataset.act = 'delete';
+    delBtn.textContent = 'Delete';
+    delBtn.title = "Delete '" + c.name + "'";
+    foot.appendChild(delBtn);
+
+    card.appendChild(foot);
+    return card;
   }
 
-  function updateNav(chars) {
-    var nav = document.getElementById('char-nav');
-    var currentVal = nav.value;
-    nav.innerHTML = '<option value="">-- Characters --</option>';
-    chars.forEach(function(c) {
+  function findCard(id) {
+    var cards = grid.querySelectorAll('.card');
+    for (var i = 0; i < cards.length; i++) if (cards[i].dataset.id === id) return cards[i];
+    return null;
+  }
+
+  // In-place refresh after an HP adjustment (no full re-render, preserves hover/focus/scroll).
+  function refreshHpCard(cardEl, c) {
+    cardEl.dataset.status = statusOf(c);
+    cardEl.querySelector('.hp-val').textContent = c.HP;
+    cardEl.querySelector('.max-val').textContent = c.maxHP;
+    cardEl.querySelector('.status-chip').textContent = statusChipText(statusOf(c));
+    cardEl.querySelector('.hp-pct').textContent = pctText(c);
+    var fill = cardEl.querySelector('.hp-fill');
+    if (fill) fill.style.width = Math.round(clampPct(barFraction(c), 0, 1) * 100) + '%';
+  }
+
+  // ---------- Rendering ----------
+  function renderToc() {
+    tocSelect.length = 0; // clears options
+    var holder = document.createElement('option');
+    holder.value = '';
+    holder.textContent = 'Jump to character\u2026';
+    holder.disabled = true;
+    holder.selected = true;
+    tocSelect.appendChild(holder);
+
+    sortedChars().forEach(function (c) {
       var opt = document.createElement('option');
       opt.value = c.id;
-      opt.textContent = c.name;
-      nav.appendChild(opt);
+      opt.textContent = c.name === '' ? '\u2014 (unnamed) \u2014' : c.name; // em dashes
+      tocSelect.appendChild(opt);
     });
-    nav.value = currentVal;
+    tocSelect.disabled = characters.length === 0;
   }
 
-  function clearCreator() {
-    document.getElementById('char-name').value = '';
-    document.getElementById('char-class').value = '';
-    document.getElementById('char-level').value = '1';
-    document.getElementById('char-hp').value = '0';
-    document.getElementById('char-maxhp').value = '10';
-    document.getElementById('char-notes').value = '';
-  }
-
-  function saveCharacter() {
-    var name = document.getElementById('char-name').value.trim();
-    if (!name) {
-      showToast('Name is required');
-      return;
+  function renderGrid() {
+    grid.innerHTML = '';
+    if (characters.length === 0) {
+      var emptyEl = document.createElement('div');
+      emptyEl.className = 'empty';
+      emptyEl.textContent = "No characters yet. Use the Creator above to add one, or Import a .json file to bring them in.";
+      grid.appendChild(emptyEl);
+    } else {
+      sortedChars().forEach(function (c) { grid.appendChild(buildCard(c)); });
     }
+    deleteAllBtn.disabled = characters.length === 0;
+    renderToc();
+  }
 
-    var chars = loadCharacters();
-    var char = {
-      id: generateId(),
-      name: name,
-      class: document.getElementById('char-class').value.trim(),
-      level: parseInt(document.getElementById('char-level').value) || 0,
-      maxHP: parseInt(document.getElementById('char-maxhp').value) || 0,
-      HP: parseInt(document.getElementById('char-hp').value) || 0,
-      notes: document.getElementById('char-notes').value
+  function flashCard(id) {
+    var cardEl = findCard(id);
+    if (!cardEl) return null;
+    cardEl.classList.remove('flash');
+    // force reflow so the animation can be re-triggered on repeat jumps
+    void cardEl.offsetWidth;
+    cardEl.classList.add('flash');
+    clearTimeout(flashCard._t);
+    flashCard._t = setTimeout(function () { cardEl.classList.remove('flash'); }, 3700);
+    return cardEl;
+  }
+
+  // ---------- Creator form ----------
+  function readForm() {
+    var data = form.elements;
+    return {
+      name: String(data.name.value).trim(),
+      'class': String(data['class'].value).trim(),
+      level: Math.max(0, toInt(data.level.value, 1)),
+      HP: toInt(data.HP.value, 0),
+      maxHP: Math.max(0, toInt(data.maxHP.value, 20)),
+      notes: String(data.notes.value)
     };
-
-    chars.push(char);
-    saveCharacters(chars);
-    clearCreator();
-    renderAll();
-    showToast('Character created');
   }
 
-  function updateCharacter() {
-    if (!editingId) return;
-
-    var name = document.getElementById('edit-name').value.trim();
-    if (!name) {
-      showToast('Name is required');
-      return;
-    }
-
-    var chars = loadCharacters();
-    var idx = chars.findIndex(function(c) { return c.id === editingId; });
-    if (idx === -1) return;
-
-    chars[idx].name = name;
-    chars[idx].class = document.getElementById('edit-class').value.trim();
-    chars[idx].level = parseInt(document.getElementById('edit-level').value) || 0;
-    chars[idx].maxHP = parseInt(document.getElementById('edit-maxhp').value) || 0;
-    chars[idx].HP = parseInt(document.getElementById('edit-hp').value) || 0;
-    chars[idx].notes = document.getElementById('edit-notes').value;
-
-    saveCharacters(chars);
-    closeEditModal();
-    renderAll();
-    showToast('Character updated');
-  }
-
-  function openEditModal(id) {
-    var chars = loadCharacters();
-    var char = chars.find(function(c) { return c.id === id; });
-    if (!char) return;
-
-    editingId = id;
-    document.getElementById('edit-name').value = char.name;
-    document.getElementById('edit-class').value = char.class || '';
-    document.getElementById('edit-level').value = char.level;
-    document.getElementById('edit-hp').value = char.HP;
-    document.getElementById('edit-maxhp').value = char.maxHP;
-    document.getElementById('edit-notes').value = char.notes || '';
-    document.getElementById('edit-modal').classList.add('active');
-  }
-
-  function closeEditModal() {
+  function resetForm(msg) {
     editingId = null;
-    document.getElementById('edit-modal').classList.remove('active');
+    form.reset(); // restores markup defaults (level=1, HP=0, maxHP=20, empty name/class/notes)
+    saveBtn.textContent = 'Save Character';
+    creatorTitle.textContent = 'Character Creator';
+    if (msg) toast(msg);
   }
 
-  function deleteCharacter(id) {
-    if (!confirm('Delete this character?')) return;
-    var chars = loadCharacters();
-    chars = chars.filter(function(c) { return c.id !== id; });
-    saveCharacters(chars);
-    renderAll();
-    showToast('Character deleted');
+  function startEdit(id) {
+    var c = charById(id);
+    if (!c) return;
+    editingId = id;
+    form.elements.name.value = c.name;
+    form.elements['class'].value = c['class'];
+    form.elements.level.value = String(c.level);
+    form.elements.HP.value = String(c.HP);
+    form.elements.maxHP.value = String(c.maxHP);
+    form.elements.notes.value = c.notes;
+    saveBtn.textContent = 'Update Character';
+    creatorTitle.textContent = "Edit: " + (c.name === '' ? '(unnamed)' : c.name);
+    // scroll the creator into view, clearing the sticky header height so it is not hidden under it
+    var formTop = form.getBoundingClientRect().top + window.pageYOffset;
+    var headerH = document.querySelector('.topbar').getBoundingClientRect().height;
+    window.scrollTo({ top: Math.max(0, formTop - headerH - 12), behavior: 'smooth' });
+    setTimeout(function () { form.elements.name.focus({ preventScroll: true }); }, 350);
   }
 
-  function deleteAll() {
-    if (!confirm('Delete all characters? This cannot be undone.')) return;
-    localStorage.removeItem(STORAGE_KEY);
-    renderAll();
-    showToast('All characters deleted');
+  function handleSave(e) {
+    e.preventDefault();
+    var data = readForm();
+    if (data.name === '') {
+      toast('Name is required.');
+      form.elements.name.focus();
+      return;
+    }
+    var targetId = null;
+    if (editingId !== null && charById(editingId)) {
+      var c = charById(editingId);
+      c.name = data.name;
+      c['class'] = data['class'];
+      c.level = data.level;
+      c.HP = data.HP;
+      c.maxHP = data.maxHP;
+      c.notes = data.notes;
+      targetId = c.id;
+      saveCharacters();
+      renderGrid();
+      resetForm('Updated "' + data.name + '".');
+    } else {
+      var newChar = { id: uid(), name: data.name, 'class': data['class'], level: data.level, HP: data.HP, maxHP: data.maxHP, notes: data.notes };
+      characters.push(newChar);
+      targetId = newChar.id;
+      saveCharacters();
+      renderGrid();
+      resetForm('Added "' + data.name + '".');
+    }
+    if (targetId) {
+      var cardEl = flashCard(targetId);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
   }
 
-  function adjustHP(id, delta) {
-    var chars = loadCharacters();
-    var char = chars.find(function(c) { return c.id === id; });
-    if (!char) return;
-    char.HP = char.HP + delta;
-    saveCharacters(chars);
-    renderAll();
+  // ---------- Grid events (delegated) ----------
+  grid.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || typeof t.closest !== 'function') return;
+    var btnEl = t.closest('button');
+    if (!btnEl || !grid.contains(btnEl)) return;
+
+    var cardEl = btnEl.closest('.card');
+    if (!cardEl) return;
+
+    // HP adjustment button?
+    if (typeof btnEl.dataset.delta !== 'undefined' && btnEl.dataset.delta !== '') {
+      var cid = cardEl.dataset.id;
+      var c = charById(cid);
+      if (!c) return;
+      var delta = parseInt(btnEl.dataset.delta, 10);
+      if (isNaN(delta)) return;
+      c.HP += delta; // plan supports HP below 0 and above maxHP
+      saveCharacters();
+      refreshHpCard(cardEl, c);
+      announceHp(c);
+      return;
+    }
+
+    var act = btnEl.dataset && btnEl.dataset.act;
+    if (act === 'edit') { startEdit(cardEl.dataset.id); return; }
+    if (act === 'delete') {
+      var id2 = cardEl.dataset.id;
+      var ch = charById(id2);
+      if (ch && !confirm('Are you sure you want to delete "' + ch.name + '"?')) return;
+      characters.splice(characters.indexOf(ch), 1); // indexOf reliable since ch is the exact object ref
+      saveCharacters();
+      renderGrid();
+      toast('Removed "' + (ch ? ch.name : 'character') + '".');
+      return;
+    }
+  });
+
+  // ---------- Table of contents jump ----------
+  tocSelect.addEventListener('change', function () {
+    var id = tocSelect.value;
+    if (!id) return;
+    var cardEl = flashCard(id);
+    if (cardEl && typeof cardEl.scrollIntoView === 'function') {
+      // respect sticky header offset
+      var st = window.pageYOffset || document.documentElement.scrollTop;
+      var top = cardEl.getBoundingClientRect().top + st - 90; // ~ sticky bar height
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    } else if (!cardEl) {
+      toast('Character not found.');
+    }
+    // reset the dropdown so it can be reused for the next jump
+    tocSelect.value = '';
+  });
+
+  toTopBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ---------- Import / Export / Delete All ----------
+  importBtn.addEventListener('click', function () {
+    importFile.value = '';
+    importFile.click();
+  });
+  importFile.addEventListener('change', function () {
+    var f = importFile.files && importFile.files[0];
+    if (!f) return;
+    Promise.resolve(f.text()).then(function (text) { ingestImport(text); }).catch(function () { toast('Could not read the file.'); });
+  });
+
+  function ingestImport(text) {
+    var data;
+    try { data = JSON.parse(text); } catch (e) { toast('Invalid JSON in that file.'); return; }
+
+    if (!Array.isArray(data)) data = [data]; // accept a single character object too
+
+    if (data.length === 0) { toast('No characters found in the file.'); return; }
+
+    var seen = {};
+    characters.forEach(function (x) { seen[x.id] = true; });
+
+    var addedNames = [];
+    var skipped = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (!data[i] || typeof data[i] !== 'object') { skipped++; continue; }
+      var c2 = normalizeChar(data[i]); // id falls back to a fresh uid when missing/blank
+      if (!c2.name) { skipped++; continue; } // skip entries with no usable name
+      if (seen[c2.id]) c2.id = uid(); // guarantee unique ids vs. existing list and within this batch
+      seen[c2.id] = true;
+      characters.push(c2);
+      addedNames.push(c2.name);
+    }
+
+    saveCharacters();
+    renderGrid();
+
+    if (addedNames.length === 0) {
+      toast('Nothing to import: ' + skipped + ' ent' + (skipped === 1 ? 'ry had' : 'ries had') + ' no name.');
+      return;
+    }
+    var total = addedNames.length + skipped, okCount = addedNames.length;
+    toast('Imported ' + okCount + ' of ' + total + ' character(s). (duplicate ids were regenerated)');
   }
 
-  function exportJSON() {
-    var chars = loadCharacters();
-    var blob = new Blob([JSON.stringify(chars, null, 2)], { type: 'application/json' });
+  exportBtn.addEventListener('click', function () {
+    if (characters.length === 0) { toast('No characters to export yet.'); return; }
+    var payload = sortedChars().map(makePlain);
+    var blob = new Blob([JSON.stringify(payload, null, 4)], { type: 'application/json' });
+
     var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'npc_characters.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('Characters exported');
+    var aEl = document.createElement('a');
+    aEl.href = url;
+    var d = new Date();
+    function pad2(n) { return String(n).length < 2 ? '0' + n : String(n); }
+    aEl.download = 'npcs-' + d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + '.json';
+    document.body.appendChild(aEl); // required for some browsers (Safari) and older WebKit paths
+    aEl.click();
+    setTimeout(function () { if (aEl.parentElement) aEl.remove(); }, 600); // drop transient anchor once download kicks off
+    setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e2) {} }, 5000); // keep blob alive until any lazy reader is done
+
+    toast('Exported ' + payload.length + ' character(s).');
+  });
+
+  deleteAllBtn.addEventListener('click', function () {
+    if (characters.length === 0) return;
+    var n = characters.length;
+    var ok = window.confirm("Delete all " + n + " character" + (n === 1 ? '' : 's') + "? This cannot be undone.");
+    if (!ok) return;
+    characters = [];
+    saveCharacters();
+    renderGrid();
+    toast('All characters deleted.');
+  });
+
+  // ---------- Theme / Dark mode ----------
+  function persistSettings() { safeSet(SETTINGS_KEY, JSON.stringify({ theme: rootEl.dataset.theme, mode: rootEl.dataset.mode })); }
+
+  themeSelect.addEventListener('change', function () {
+    var v = themeSelect.value;
+    if (THEMES.indexOf(v) === -1) v = 'space';
+    rootEl.dataset.theme = v;
+    persistSettings();
+  });
+
+  function syncDarkBtn() {
+    var dark = rootEl.dataset.mode === 'dark';
+    darkModeBtn.textContent = dark ? 'Light Mode' : 'Dark Mode';
+    darkModeBtn.setAttribute('aria-pressed', String(dark));
+    // ensure <html> has an explicit color-scheme hint via CSS variables (already handled by stylesheet)
   }
 
-  function importJSON(file) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        var imported = JSON.parse(e.target.result);
-        if (!Array.isArray(imported)) {
-          showToast('Invalid JSON format');
-          return;
-        }
-        var chars = loadCharacters();
-        var existingIds = new Set(chars.map(function(c) { return c.id; }));
-        var newCount = 0;
+  darkModeBtn.addEventListener('click', function () {
+    rootEl.dataset.mode = rootEl.dataset.mode === 'dark' ? 'light' : 'dark';
+    syncDarkBtn();
+    persistSettings();
+  });
 
-        imported.forEach(function(item) {
-          if (!item.id || existingIds.has(item.id)) {
-            item.id = generateId();
-          }
-          existingIds.add(item.id);
-          chars.push(item);
-          newCount++;
-        });
+  // ---------- Form buttons ----------
+  form.addEventListener('submit', handleSave);
+  cancelBtn.addEventListener('click', function (ev) { ev && ev.preventDefault && ev.preventDefault(); resetForm(editingId !== null ? 'Editing cancelled.' : undefined); });
 
-        saveCharacters(chars);
-        renderAll();
-        showToast('Imported ' + newCount + ' character(s)');
-      } catch(err) {
-        showToast('Error importing JSON');
-      }
-    };
-    reader.readAsText(file);
+  // ---------- Init ----------
+  var initTheme = rootEl.dataset.theme;
+  if (THEMES.indexOf(initTheme) === -1 || !initTheme) {
+    initTheme = 'space';
+    rootEl.dataset.theme = initTheme;
   }
+  themeSelect.value = initTheme;
+  if (!rootEl.dataset.mode) rootEl.dataset.mode = 'light'; // safety (inline script usually sets it already)
+  syncDarkBtn();
 
-  function showToast(msg) {
-    var toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(function() {
-      toast.classList.remove('show');
-    }, 2000);
-  }
-
-  function initTheme() {
-    var savedTheme = localStorage.getItem(THEME_KEY) || 'space';
-    document.body.setAttribute('data-theme', savedTheme);
-    document.getElementById('theme-select').value = savedTheme;
-  }
-
-  function initDarkMode() {
-    var savedDark = localStorage.getItem(DARK_KEY) === 'true';
-    document.body.setAttribute('data-dark', savedDark ? 'true' : 'false');
-  }
-
-  function setupEvents() {
-    document.getElementById('save-btn').addEventListener('click', saveCharacter);
-    document.getElementById('cancel-btn').addEventListener('click', clearCreator);
-    document.getElementById('edit-save-btn').addEventListener('click', updateCharacter);
-    document.getElementById('edit-cancel-btn').addEventListener('click', closeEditModal);
-    document.getElementById('delete-all-btn').addEventListener('click', deleteAll);
-    document.getElementById('export-btn').addEventListener('click', exportJSON);
-    document.getElementById('import-btn').addEventListener('click', function() {
-      document.getElementById('import-input').click();
-    });
-    document.getElementById('import-input').addEventListener('change', function(e) {
-      if (e.target.files[0]) {
-        importJSON(e.target.files[0]);
-        e.target.value = '';
-      }
-    });
-
-    document.getElementById('char-nav').addEventListener('change', function() {
-      var id = this.value;
-      if (!id) return;
-      var card = document.querySelector('.card[data-id="' + id + '"]');
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        card.style.boxShadow = '0 0 0 3px var(--accent)';
-        setTimeout(function() {
-          card.style.boxShadow = '';
-        }, 2000);
-      }
-      this.value = '';
-    });
-
-    document.getElementById('return-top-btn').addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    document.getElementById('return-top').addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    document.getElementById('theme-select').addEventListener('change', function() {
-      document.body.setAttribute('data-theme', this.value);
-      localStorage.setItem(THEME_KEY, this.value);
-    });
-
-    document.getElementById('dark-toggle').addEventListener('click', function() {
-      var isDark = document.body.getAttribute('data-dark') === 'true';
-      var newDark = !isDark;
-      document.body.setAttribute('data-dark', newDark ? 'true' : 'false');
-      localStorage.setItem(DARK_KEY, newDark ? 'true' : 'false');
-    });
-
-    document.getElementById('edit-modal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeEditModal();
-      }
-    });
-
-    document.getElementById('cards-container').addEventListener('click', function(e) {
-      var hpBtn = e.target.closest('.hp-btn');
-      if (hpBtn) {
-        var id = hpBtn.getAttribute('data-id');
-        var delta = parseInt(hpBtn.getAttribute('data-delta'));
-        adjustHP(id, delta);
-        return;
-      }
-
-      var editBtn = e.target.closest('.edit-btn');
-      if (editBtn) {
-        openEditModal(editBtn.getAttribute('data-id'));
-        return;
-      }
-
-      var deleteBtn = e.target.closest('.delete-btn');
-      if (deleteBtn) {
-        deleteCharacter(deleteBtn.getAttribute('data-id'));
-        return;
-      }
-    });
-
-    window.addEventListener('scroll', function() {
-      var returnTop = document.getElementById('return-top');
-      if (window.scrollY > 300) {
-        returnTop.classList.add('visible');
-      } else {
-        returnTop.classList.remove('visible');
-      }
-    });
-  }
-
-  function init() {
-    initTheme();
-    initDarkMode();
-    setupEvents();
-    renderAll();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  loadCharacters();
+  renderGrid();
 })();
 </script>
 </body>
